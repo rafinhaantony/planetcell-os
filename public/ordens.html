@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Ordens de Serviço | PlanetCell OS</title>
+
+    <link
+        rel="stylesheet"
+        href="css/ordens.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- OVERLAY MOBILE -->
+
+    <div
+        class="overlay"
+        id="overlay"
+        onclick="abrirMenu()"
+    ></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                P
+            </div>
+
+            <div>
+                <strong>PlanetCell</strong>
+                <span>OS</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/dashboard.html">
+                <span>▦</span>
+                Dashboard
+            </a>
+
+            <a href="/clientes.html">
+                <span>👥</span>
+                Clientes
+            </a>
+
+            <a href="/aparelhos.html">
+                <span>📱</span>
+                Aparelhos
+            </a>
+
+            <a
+                href="/ordens.html"
+                class="ativo"
+            >
+                <span>🔧</span>
+                Ordens de Serviço
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button onclick="sair()">
+                ⇥
+                Sair
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- CONTEÚDO -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <button
+                class="menu-btn"
+                onclick="abrirMenu()"
+            >
+                ☰
+            </button>
+
+            <div>
+
+                <h1>Ordens de Serviço</h1>
+
+                <p>
+                    Gerencie os serviços e reparos da PlanetCell.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- AÇÕES -->
+
+        <section class="acoes">
+
+            <div class="busca">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    id="busca"
+                    placeholder="Buscar por OS, cliente, aparelho..."
+                    oninput="filtrarOrdens()"
+                >
+
+            </div>
+
+
+            <button
+                class="btn-primary"
+                onclick="abrirModal()"
+            >
+                + Nova OS
+            </button>
+
+        </section>
+
+
+        <!-- RESUMO -->
+
+        <section class="resumo">
+
+            <div class="resumo-card">
+
+                <span class="resumo-icon azul">
+                    🔧
+                </span>
+
+                <div>
+
+                    <small>
+                        Total de OS
+                    </small>
+
+                    <strong id="totalOS">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <span class="resumo-icon amarelo">
+                    ⏳
+                </span>
+
+                <div>
+
+                    <small>
+                        Em andamento
+                    </small>
+
+                    <strong id="emAndamento">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <span class="resumo-icon verde">
+                    ✓
+                </span>
+
+                <div>
+
+                    <small>
+                        Finalizadas
+                    </small>
+
+                    <strong id="finalizadas">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TABELA -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Ordens cadastradas
+                    </h2>
+
+                    <p>
+                        Acompanhe os serviços da assistência.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="tabela-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                OS
+                            </th>
+
+                            <th>
+                                CLIENTE
+                            </th>
+
+                            <th>
+                                APARELHO
+                            </th>
+
+                            <th>
+                                SERVIÇO
+                            </th>
+
+                            <th>
+                                VALOR
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                DATA
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="listaOrdens">
+
+                    </tbody>
+
+                </table>
+
+
+                <div
+                    id="vazio"
+                    class="vazio"
+                >
+
+                    <div class="vazio-icon">
+                        🔧
+                    </div>
+
+                    <h3>
+                        Nenhuma ordem encontrada
+                    </h3>
+
+                    <p>
+                        Crie a primeira ordem de serviço.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MODAL -->
+
+    <div
+        class="modal"
+        id="modal"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Nova Ordem de Serviço
+                    </h2>
+
+                    <p>
+                        Cadastre um novo reparo.
+                    </p>
+
+                </div>
+
+                <button
+                    class="fechar"
+                    onclick="fecharModal()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="formOS">
+
+
+                <!-- CLIENTE -->
+
+                <div class="campo">
+
+                    <label>
+                        Cliente
+                    </label>
+
+                    <select
+                        id="clienteId"
+                        required
+                        onchange="carregarAparelhosDoCliente()"
+                    >
+
+                        <option value="">
+                            Selecione o cliente
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- APARELHO -->
+
+                <div class="campo">
+
+                    <label>
+                        Aparelho
+                    </label>
+
+                    <select
+                        id="aparelhoId"
+                        required
+                    >
+
+                        <option value="">
+                            Selecione primeiro o cliente
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DESCRIÇÃO -->
+
+                <div class="campo">
+
+                    <label>
+                        Defeito / Serviço
+                    </label>
+
+                    <textarea
+                        id="descricao"
+                        rows="4"
+                        placeholder="Ex: Tela quebrada, troca de bateria..."
+                        required
+                    ></textarea>
+
+                </div>
+
+                <div class="campo">
+
+                    <label>
+                        Diagnóstico
+                    </label>
+
+                    <textarea
+                        id="diagnostico"
+                        rows="3"
+                        placeholder="Ex: Display danificado e bateria com baixa capacidade..."
+                    ></textarea>
+
+                </div>
+
+                <!-- VALOR -->
+
+                <div class="campo">
+
+                    <label>
+                        Valor do serviço
+                    </label>
+
+                    <div class="input-valor">
+
+                        <span>
+                            R$
+                        </span>
+
+                        <input
+                            type="number"
+                            id="valor"
+                            step="0.01"
+                            min="0"
+                            placeholder="0,00"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="campo">
+
+                    <label>
+                        Observações
+                    </label>
+
+                    <textarea
+                        id="observacoes"
+                        rows="3"
+                        placeholder="Observações internas da assistência..."
+                    ></textarea>
+
+                </div>
+
+                <div
+                    id="mensagem"
+                    class="mensagem"
+                ></div>
+
+
+                <!-- BOTÕES -->
+
+                <div class="modal-acoes">
+
+                    <button
+                        type="button"
+                        class="btn-cancelar"
+                        onclick="fecharModal()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn-primary"
+                    >
+                        Criar OS
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+            <!-- MODAL DETALHES DA OS -->
+
+        <div
+            class="modal"
+            id="modalDetalhes"
+        >
+
+            <div class="modal-box detalhes-box">
+
+                <div class="modal-header">
+
+                    <div>
+
+                        <h2 id="detalhesTitulo">
+                            OS #001
+                        </h2>
+
+                        <p>
+                            Detalhes da ordem de serviço
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="fechar"
+                        onclick="fecharDetalhes()"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="detalhes-conteudo">
+
+                    <div class="detalhes-grid">
+
+                        <div class="detalhe">
+
+                            <span>
+                                CLIENTE
+                            </span>
+
+                            <strong id="detalhesCliente">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detalhe">
+
+                            <span>
+                                APARELHO
+                            </span>
+
+                            <strong id="detalhesAparelho">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detalhe">
+
+                            <span>
+                                DATA
+                            </span>
+
+                            <strong id="detalhesData">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detalhe">
+
+                            <span>
+                                VALOR
+                            </span>
+
+                            <strong id="detalhesValor">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="detalhe-bloco">
+
+                        <span>
+                            DEFEITO / SERVIÇO
+                        </span>
+
+                        <p id="detalhesDescricao">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="detalhe-bloco">
+
+                        <span>
+                            DIAGNÓSTICO
+                        </span>
+
+                        <textarea
+                            id="editarDiagnostico"
+                            rows="3"
+                            placeholder="Digite o diagnóstico..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="detalhe-bloco">
+
+                        <span>
+                            VALOR DO SERVIÇO
+                        </span>
+
+                        <input
+                            type="number"
+                            id="editarValor"
+                            step="0.01"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="detalhe-bloco">
+
+                        <span>
+                            STATUS DA OS
+                        </span>
+
+                        <select id="editarStatus">
+
+                            <option value="Recebido">
+                                Recebido
+                            </option>
+
+                            <option value="Em análise">
+                                Em análise
+                            </option>
+
+                            <option value="Orçamento enviado">
+                                Orçamento enviado
+                            </option>
+
+                            <option value="Aguardando aprovação">
+                                Aguardando aprovação
+                            </option>
+
+                            <option value="Em manutenção">
+                                Em manutenção
+                            </option>
+
+                            <option value="Finalizado">
+                                Finalizado
+                            </option>
+
+                            <option value="Aguardando retirada">
+                                Aguardando retirada
+                            </option>
+
+                            <option value="Entregue">
+                                Entregue
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="detalhe-bloco">
+
+                        <span>
+                            OBSERVAÇÕES
+                        </span>
+
+                        <textarea
+                            id="editarObservacoes"
+                            rows="3"
+                            placeholder="Observações internas..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div
+                        id="mensagemDetalhes"
+                        class="mensagem"
+                    ></div>
+
+                </div>
+
+
+                <div class="modal-acoes">
+
+                    <button
+                        class="btn-cancelar"
+                        onclick="fecharDetalhes()"
+                    >
+                        Fechar
+                    </button>
+
+                    <button
+                        class="btn-primary"
+                        onclick="salvarDetalhesOS()"
+                    >
+                        Salvar alterações
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    <script src="js/ordens.js"></script>
+
+</body>
+
+</html>

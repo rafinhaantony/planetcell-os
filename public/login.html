@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | PlanetCell OS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #0f172a;
+        }
+
+        .login-container {
+            width: 400px;
+            max-width: 90%;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h1 {
+            font-size: 30px;
+            color: #2563eb;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: #64748b;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            display: block;
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            color: #334155;
+        }
+
+        .campo input {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .campo input:focus {
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+
+            text-align: center;
+
+            color: #dc2626;
+
+            font-size: 14px;
+        }
+
+        .rodape {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">
+            <h1>PlanetCell</h1>
+            <p>PlanetCell OS</p>
+        </div>
+
+        <form id="loginForm">
+
+            <div class="campo">
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="admin@planetcell.com.br"
+                    required
+                >
+
+            </div>
+
+            <div class="campo">
+
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Digite sua senha"
+                    required
+                >
+
+            </div>
+
+            <button type="submit">
+                Entrar no sistema
+            </button>
+
+            <div id="mensagem"></div>
+
+        </form>
+
+        <div class="rodape">
+            PlanetCell OS • Sistema de gestão
+        </div>
+
+    </div>
+
+    <script>
+
+        const form = document.getElementById("loginForm");
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
+
+            const mensagem = document.getElementById("mensagem");
+
+            mensagem.textContent = "Entrando...";
+
+            try {
+
+                const resposta = await fetch("/api/login", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: email,
+                        senha: senha
+                    })
+
+                });
+
+                const dados = await resposta.json();
+
+                if (dados.sucesso) {
+
+                    window.location.href = "/dashboard.html";
+
+                } else {
+
+                    mensagem.textContent = dados.mensagem;
+
+                }
+
+            } catch (erro) {
+
+                console.error(erro);
+
+                mensagem.textContent =
+                    "Não foi possível conectar ao servidor.";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

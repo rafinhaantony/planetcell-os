@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | PlanetCell OS</title>
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                P
+            </div>
+
+            <div>
+                <h1>PlanetCell</h1>
+                <span>OS</span>
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <p class="menu-title">
+                PRINCIPAL
+            </p>
+
+            <a
+                href="#"
+                class="menu-item active"
+            >
+                <span>▦</span>
+                Dashboard
+            </a>
+
+
+            <p class="menu-title">
+                GESTÃO
+            </p>
+
+            <a
+                href="clientes.html"
+                class="menu-item"
+            >
+                <span>♙</span>
+                Clientes
+            </a>
+
+            <a
+                href="aparelhos.html"
+                class="menu-item"
+            >
+                <span>▣</span>
+                Aparelhos
+            </a>
+
+            <a
+                href="ordens.html"
+                class="menu-item"
+            >
+                <span>⚙</span>
+                Ordens de Serviço
+            </a>
+
+
+            <p class="menu-title">
+                SISTEMA
+            </p>
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+                <span>⚙</span>
+                Configurações
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="user">
+
+                <div class="user-avatar">
+                    A
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        Administrador
+                    </strong>
+
+                    <span>
+                        Administrador
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout"
+                onclick="sair()"
+            >
+                ↪ Sair
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTEÚDO
+    ========================== -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <button
+                    class="mobile-menu"
+                    onclick="abrirMenu()"
+                >
+                    ☰
+                </button>
+
+                <span class="page-label">
+                    PAINEL DE CONTROLE
+                </span>
+
+                <h2>
+                    Dashboard
+                </h2>
+
+                <p>
+                    Acompanhe o desempenho da PlanetCell.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="status-online">
+
+                    <span></span>
+
+                    Sistema online
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             CARDS
+        ========================== -->
+
+        <section class="cards">
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon blue">
+                        👥
+                    </div>
+
+                    <span class="card-label">
+                        CLIENTES
+                    </span>
+
+                </div>
+
+                <h3 id="clientes">
+                    0
+                </h3>
+
+                <p>
+                    Clientes cadastrados
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon purple">
+                        📱
+                    </div>
+
+                    <span class="card-label">
+                        APARELHOS
+                    </span>
+
+                </div>
+
+                <h3 id="aparelhos">
+                    0
+                </h3>
+
+                <p>
+                    Aparelhos registrados
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon orange">
+                        🔧
+                    </div>
+
+                    <span class="card-label">
+                        ORDENS
+                    </span>
+
+                </div>
+
+                <h3 id="ordens">
+                    0
+                </h3>
+
+                <p>
+                    Ordens de serviço
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon green">
+                        ✓
+                    </div>
+
+                    <span class="card-label">
+                        FINALIZADOS
+                    </span>
+
+                </div>
+
+                <h3 id="concluidos">
+                    0
+                </h3>
+
+                <p>
+                    Serviços concluídos
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             GRID PRINCIPAL
+        ========================== -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- ORDENS RECENTES -->
+
+            <div class="panel orders-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Ordens recentes
+                        </h3>
+
+                        <p>
+                            Últimos serviços cadastrados
+                        </p>
+
+                    </div>
+
+                    <button>
+                        Ver todas
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="ordensLista"
+                    class="orders-list"
+                >
+
+                    <div class="empty">
+
+                        <div>
+                            📋
+                        </div>
+
+                        <strong>
+                            Nenhuma ordem encontrada
+                        </strong>
+
+                        <span>
+                            As novas ordens aparecerão aqui.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="panel status-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Status dos serviços
+                        </h3>
+
+                        <p>
+                            Situação atual
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-list">
+
+                    <div class="status-row">
+
+                        <div class="status-name">
+
+                            <span class="dot received"></span>
+
+                            Recebidos
+
+                        </div>
+
+                        <strong id="statusRecebido">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-name">
+
+                            <span class="dot analysis"></span>
+
+                            Em análise
+
+                        </div>
+
+                        <strong id="statusAnalise">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-name">
+
+                            <span class="dot repair"></span>
+
+                            Em manutenção
+
+                        </div>
+
+                        <strong id="statusManutencao">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-name">
+
+                            <span class="dot finished"></span>
+
+                            Finalizados
+
+                        </div>
+
+                        <strong id="statusFinalizado">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RESUMO
+        ========================== -->
+
+        <section class="bottom-panel">
+
+            <div>
+
+                <span>
+                    PLANETCELL OS
+                </span>
+
+                <h3>
+                    Central de gestão da assistência técnica
+                </h3>
+
+                <p>
+                    Controle clientes, aparelhos e ordens de serviço
+                    em um único lugar.
+                </p>
+
+            </div>
+
+
+            <div class="system-version">
+
+                <span>
+                    VERSÃO
+                </span>
+
+                <strong>
+                    V1.0
+                </strong>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- OVERLAY MOBILE -->
+
+    <div
+        id="overlay"
+        class="overlay"
+        onclick="abrirMenu()"
+    ></div>
+
+
+    <script src="js/dashboard.js"></script>
+
+</body>
+
+</html>
