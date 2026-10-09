@@ -1,19 +1,48 @@
+:root {
+
+    --azul: #0066FF;
+    --azul-escuro: #0B1F3A;
+
+    --laranja: #FF7A00;
+    --laranja-escuro: #E96800;
+
+    --branco: #FFFFFF;
+
+    --grafite: #111827;
+
+    --cinza-fundo: #F5F7FA;
+    --cinza-borda: #E5E7EB;
+    --cinza-texto: #64748B;
+
+    --verde: #16A34A;
+
+}
+
+
 * {
+
     margin: 0;
     padding: 0;
+
     box-sizing: border-box;
+
 }
+
 
 body {
+
     font-family: Arial, Helvetica, sans-serif;
-    background: #f8fafc;
-    color: #0f172a;
+
+    background: var(--cinza-fundo);
+
+    color: var(--grafite);
+
 }
 
 
-/* =========================
+/* =================================
    SIDEBAR
-========================= */
+================================= */
 
 .sidebar {
 
@@ -22,104 +51,72 @@ body {
     left: 0;
     top: 0;
 
-    width: 250px;
+    width: 260px;
+
     height: 100vh;
 
-    background: #0f172a;
-
-    color: white;
+    background: var(--azul-escuro);
 
     display: flex;
 
     flex-direction: column;
 
     z-index: 1000;
+
 }
 
 
 /* LOGO */
 
-.logo {
+.sidebar-logo {
 
-    height: 85px;
-
-    padding: 0 25px;
+    height: 100px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 12px;
-
-    border-bottom: 1px solid #1e293b;
-}
-
-
-.logo-icon {
-
-    width: 40px;
-    height: 40px;
-
-    border-radius: 10px;
-
-    background: #2563eb;
-
-    display: flex;
-
-    align-items: center;
     justify-content: center;
 
-    font-size: 20px;
+    flex-direction: column;
+
+    gap: 4px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+}
+
+
+.sidebar-logo img {
+
+    width: 170px;
+
+    height: 80px;
+
+    object-fit: contain;
+
+}
+
+
+.sidebar-logo span {
+
+    color: white;
+
+    font-size: 13px;
 
     font-weight: bold;
+
 }
 
 
-.logo h1 {
-
-    font-size: 17px;
-
-    margin-bottom: 2px;
-}
-
-
-.logo span {
-
-    color: #60a5fa;
-
-    font-size: 12px;
-
-    font-weight: bold;
-}
-
-
-/* MENU */
+/* =================================
+   MENU
+================================= */
 
 .menu {
 
     padding: 25px 15px;
 
-    flex: 1;
-}
-
-
-.menu-title {
-
-    color: #64748b;
-
-    font-size: 10px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-    margin: 20px 10px 10px;
-}
-
-
-.menu-title:first-child {
-
-    margin-top: 0;
 }
 
 
@@ -129,248 +126,245 @@ body {
 
     align-items: center;
 
-    gap: 12px;
+    gap: 14px;
 
-    color: #94a3b8;
+    padding: 13px 15px;
+
+    margin-bottom: 6px;
+
+    color: #CBD5E1;
 
     text-decoration: none;
 
-    padding: 12px;
-
-    margin-bottom: 5px;
-
-    border-radius: 8px;
+    border-radius: 10px;
 
     font-size: 14px;
 
     transition: 0.2s;
-}
 
-
-.menu-item span {
-
-    width: 22px;
-
-    text-align: center;
-
-    font-size: 16px;
 }
 
 
 .menu-item:hover {
 
-    background: #1e293b;
+    background: rgba(255,255,255,0.07);
 
     color: white;
+
 }
 
 
 .menu-item.active {
 
-    background: #2563eb;
+    background: var(--laranja);
 
     color: white;
+
+    font-weight: bold;
+
 }
 
 
-/* SIDEBAR BOTTOM */
+.icone {
+
+    width: 22px;
+
+    text-align: center;
+
+    font-size: 17px;
+
+}
+
+
+.menu-separador {
+
+    height: 1px;
+
+    background: rgba(255,255,255,0.08);
+
+    margin: 20px 10px;
+
+}
+
+
+/* =================================
+   BOTÃO SAIR
+================================= */
 
 .sidebar-bottom {
 
-    padding: 20px;
+    margin-top: auto;
 
-    border-top: 1px solid #1e293b;
+    padding: 20px 15px;
+
 }
 
 
-.user {
+.botao-sair {
+
+    width: 100%;
+
+    border: none;
+
+    background: rgba(255,255,255,0.06);
+
+    color: #CBD5E1;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+}
+
+
+.botao-sair:hover {
+
+    background: rgba(255,255,255,0.12);
+
+    color: white;
+
+}
+
+
+/* =================================
+   MAIN
+================================= */
+
+.main {
+
+    margin-left: 260px;
+
+    min-height: 100vh;
+
+}
+
+
+/* =================================
+   TOPBAR
+================================= */
+
+.topbar {
+
+    height: 85px;
+
+    background: white;
+
+    border-bottom: 1px solid var(--cinza-borda);
 
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
+    justify-content: space-between;
 
-    margin-bottom: 15px;
+    padding: 0 35px;
+
 }
 
 
-.user-avatar {
+.topbar-titulo h1 {
 
-    width: 38px;
-    height: 38px;
+    font-size: 24px;
 
-    background: #2563eb;
+    color: var(--azul-escuro);
+
+    margin-bottom: 4px;
+
+}
+
+
+.topbar-titulo p {
+
+    font-size: 13px;
+
+    color: var(--cinza-texto);
+
+}
+
+
+/* =================================
+   USUÁRIO
+================================= */
+
+.usuario {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.usuario-avatar {
+
+    width: 42px;
+
+    height: 42px;
 
     border-radius: 50%;
 
+    background: var(--azul);
+
+    color: white;
+
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     font-weight: bold;
+
 }
 
 
-.user-info {
+.usuario-info {
 
     display: flex;
 
     flex-direction: column;
 
     gap: 3px;
+
 }
 
 
-.user-info strong {
-
-    font-size: 12px;
-}
-
-
-.user-info span {
-
-    color: #64748b;
-
-    font-size: 10px;
-}
-
-
-.logout {
-
-    width: 100%;
-
-    border: 1px solid #334155;
-
-    background: transparent;
-
-    color: #94a3b8;
-
-    padding: 9px;
-
-    border-radius: 7px;
-
-    cursor: pointer;
-}
-
-
-.logout:hover {
-
-    background: #1e293b;
-
-    color: white;
-}
-
-
-/* =========================
-   MAIN
-========================= */
-
-.main {
-
-    margin-left: 250px;
-
-    min-height: 100vh;
-
-    padding: 35px;
-}
-
-
-/* =========================
-   TOPBAR
-========================= */
-
-.topbar {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    justify-content: space-between;
-
-    margin-bottom: 30px;
-}
-
-
-.page-label {
-
-    font-size: 10px;
-
-    color: #2563eb;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-
-.topbar h2 {
-
-    font-size: 30px;
-
-    margin: 5px 0;
-}
-
-
-.topbar p {
-
-    color: #64748b;
+.usuario-info strong {
 
     font-size: 14px;
+
 }
 
 
-.status-online {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    background: white;
-
-    padding: 9px 14px;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 8px;
+.usuario-info span {
 
     font-size: 12px;
 
-    color: #475569;
+    color: var(--cinza-texto);
+
 }
 
 
-.status-online span {
+/* =================================
+   DASHBOARD
+================================= */
 
-    width: 8px;
-    height: 8px;
+.dashboard {
 
-    border-radius: 50%;
+    padding: 30px 35px;
 
-    background: #22c55e;
 }
 
 
-.mobile-menu {
-
-    display: none;
-
-    border: none;
-
-    background: none;
-
-    font-size: 25px;
-
-    cursor: pointer;
-}
-
-
-/* =========================
+/* =================================
    CARDS
-========================= */
+================================= */
 
 .cards {
 
@@ -379,126 +373,122 @@ body {
     grid-template-columns:
         repeat(4, 1fr);
 
-    gap: 18px;
+    gap: 20px;
 
     margin-bottom: 25px;
+
 }
 
 
-.card {
+.card-indicador {
 
     background: white;
 
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--cinza-borda);
 
-    border-radius: 12px;
+    border-radius: 14px;
 
     padding: 22px;
 
-    transition: 0.2s;
-}
-
-
-.card:hover {
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 10px 30px rgba(15, 23, 42, 0.07);
-}
-
-
-.card-top {
-
     display: flex;
+
+    align-items: center;
 
     justify-content: space-between;
 
-    align-items: center;
+    transition: 0.2s;
+
 }
 
 
-.card-icon {
+.card-indicador:hover {
 
-    width: 40px;
-    height: 40px;
+    transform: translateY(-3px);
 
-    border-radius: 9px;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.06);
 
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 18px;
-}
-
-
-.blue {
-
-    background: #eff6ff;
-
-    color: #2563eb;
-}
-
-
-.purple {
-
-    background: #f5f3ff;
-
-    color: #7c3aed;
-}
-
-
-.orange {
-
-    background: #fff7ed;
-
-    color: #ea580c;
-}
-
-
-.green {
-
-    background: #f0fdf4;
-
-    color: #16a34a;
 }
 
 
 .card-label {
 
-    color: #94a3b8;
+    display: block;
 
-    font-size: 9px;
+    font-size: 13px;
 
-    font-weight: bold;
+    color: var(--cinza-texto);
 
-    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+
 }
 
 
-.card h3 {
+.card-indicador strong {
 
-    font-size: 30px;
+    display: block;
 
-    margin-top: 20px;
+    font-size: 28px;
+
+    color: var(--azul-escuro);
 
     margin-bottom: 5px;
+
 }
 
 
-.card p {
+.card-indicador small {
 
-    color: #94a3b8;
+    color: var(--cinza-texto);
 
-    font-size: 12px;
+    font-size: 11px;
+
 }
 
 
-/* =========================
+.card-icone {
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 21px;
+
+}
+
+
+.card-icone.azul {
+
+    background: #E8F0FF;
+
+}
+
+
+.card-icone.laranja {
+
+    background: #FFF1E5;
+
+}
+
+
+.card-icone.verde {
+
+    background: #E9F8EF;
+
+}
+
+
+/* =================================
    GRID
-========================= */
+================================= */
 
 .dashboard-grid {
 
@@ -507,23 +497,31 @@ body {
     grid-template-columns:
         2fr 1fr;
 
-    gap: 20px;
+    gap: 25px;
+
 }
 
 
-.panel {
+/* =================================
+   PAINEL
+================================= */
+
+.painel {
 
     background: white;
 
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--cinza-borda);
 
-    border-radius: 12px;
+    border-radius: 14px;
 
-    padding: 22px;
+    overflow: hidden;
+
 }
 
 
-.panel-header {
+.painel-header {
+
+    padding: 22px;
 
     display: flex;
 
@@ -531,131 +529,154 @@ body {
 
     justify-content: space-between;
 
-    margin-bottom: 20px;
+    border-bottom: 1px solid var(--cinza-borda);
+
 }
 
 
-.panel-header h3 {
+.painel-header h2 {
 
-    font-size: 16px;
+    font-size: 17px;
 
-    margin-bottom: 4px;
+    color: var(--azul-escuro);
+
+    margin-bottom: 5px;
+
 }
 
 
-.panel-header p {
+.painel-header p {
 
-    color: #94a3b8;
+    font-size: 12px;
 
-    font-size: 11px;
+    color: var(--cinza-texto);
+
 }
 
 
-.panel-header button {
+/* =================================
+   BOTÃO SECUNDÁRIO
+================================= */
 
-    border: none;
+.botao-secundario {
 
-    background: #eff6ff;
+    border: 1px solid var(--cinza-borda);
 
-    color: #2563eb;
+    background: white;
 
-    padding: 8px 12px;
+    color: var(--azul);
 
-    border-radius: 6px;
+    padding: 9px 13px;
+
+    border-radius: 8px;
 
     cursor: pointer;
 
+    font-size: 12px;
+
+}
+
+
+.botao-secundario:hover {
+
+    background: #F5F8FF;
+
+}
+
+
+/* =================================
+   TABELA
+================================= */
+
+.tabela-container {
+
+    overflow-x: auto;
+
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+th {
+
+    text-align: left;
+
+    padding: 15px 20px;
+
     font-size: 11px;
 
-    font-weight: bold;
+    text-transform: uppercase;
+
+    color: var(--cinza-texto);
+
+    background: #FAFBFC;
+
 }
 
 
-/* =========================
-   ORDERS
-========================= */
+td {
 
-.orders-list {
+    padding: 17px 20px;
 
-    min-height: 220px;
-
-    display: flex;
-
-    flex-direction: column;
-}
-
-
-.empty {
-
-    flex: 1;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    color: #94a3b8;
-}
-
-
-.empty div {
-
-    font-size: 30px;
-
-    margin-bottom: 10px;
-}
-
-
-.empty strong {
-
-    color: #475569;
+    border-top: 1px solid var(--cinza-borda);
 
     font-size: 13px;
 
-    margin-bottom: 5px;
 }
 
 
-.empty span {
+.sem-dados {
 
-    font-size: 11px;
+    text-align: center;
+
+    color: var(--cinza-texto);
+
+    padding: 30px 10px;
+
 }
 
 
-/* =========================
+/* =================================
    STATUS
-========================= */
+================================= */
 
-.status-list {
+.status-lista {
 
-    display: flex;
+    padding: 10px 22px 20px;
 
-    flex-direction: column;
-
-    gap: 5px;
 }
 
 
-.status-row {
+.status-item {
 
     display: flex;
-
-    justify-content: space-between;
 
     align-items: center;
 
-    padding: 15px 10px;
+    justify-content: space-between;
 
-    border-bottom: 1px solid #f1f5f9;
+    padding: 16px 0;
+
+    border-bottom: 1px solid var(--cinza-borda);
+
 }
 
 
-.status-name {
+.status-item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.status-nome {
 
     display: flex;
 
@@ -665,142 +686,79 @@ body {
 
     font-size: 13px;
 
-    color: #475569;
 }
 
 
-.dot {
+.status-item strong {
+
+    font-size: 14px;
+
+}
+
+
+.bolinha {
 
     width: 9px;
+
     height: 9px;
 
     border-radius: 50%;
+
 }
 
 
-.received {
+.aguardando {
 
-    background: #3b82f6;
+    background: #F59E0B;
+
 }
 
 
-.analysis {
+.andamento {
 
-    background: #f59e0b;
+    background: var(--azul);
+
 }
 
 
-.repair {
+.pronto {
 
-    background: #8b5cf6;
+    background: var(--laranja);
+
 }
 
 
-.finished {
+.entregue {
 
-    background: #22c55e;
+    background: var(--verde);
+
 }
 
 
-.status-row strong {
+/* =================================
+   MENU MOBILE
+================================= */
 
-    font-size: 14px;
-}
-
-
-/* =========================
-   BOTTOM
-========================= */
-
-.bottom-panel {
-
-    background: #0f172a;
-
-    color: white;
-
-    border-radius: 12px;
-
-    padding: 25px;
-
-    margin-top: 20px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-}
-
-
-.bottom-panel > div:first-child span {
-
-    color: #60a5fa;
-
-    font-size: 9px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-
-.bottom-panel h3 {
-
-    margin: 7px 0;
-
-    font-size: 16px;
-}
-
-
-.bottom-panel p {
-
-    color: #94a3b8;
-
-    font-size: 12px;
-}
-
-
-.system-version {
-
-    text-align: right;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 5px;
-}
-
-
-.system-version span {
-
-    color: #64748b;
-
-    font-size: 9px;
-}
-
-
-.system-version strong {
-
-    font-size: 20px;
-
-    color: #60a5fa;
-}
-
-
-/* =========================
-   OVERLAY
-========================= */
-
-.overlay {
+.menu-mobile {
 
     display: none;
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    color: var(--azul-escuro);
+
 }
 
 
-/* =========================
-   TABLET
-========================= */
+/* =================================
+   RESPONSIVIDADE
+================================= */
 
 @media (max-width: 1100px) {
 
@@ -808,19 +766,18 @@ body {
 
         grid-template-columns:
             repeat(2, 1fr);
+
     }
+
 
     .dashboard-grid {
 
         grid-template-columns: 1fr;
+
     }
 
 }
 
-
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 700px) {
 
@@ -829,30 +786,14 @@ body {
         transform: translateX(-100%);
 
         transition: 0.3s;
+
     }
 
 
-    .sidebar.open {
+    .sidebar.aberta {
 
         transform: translateX(0);
-    }
 
-
-    .overlay {
-
-        position: fixed;
-
-        inset: 0;
-
-        background: rgba(0, 0, 0, 0.5);
-
-        z-index: 900;
-    }
-
-
-    .overlay.show {
-
-        display: block;
     }
 
 
@@ -860,99 +801,50 @@ body {
 
         margin-left: 0;
 
-        padding: 20px;
-    }
-
-
-    .mobile-menu {
-
-        display: inline-block;
-
-        margin-right: 10px;
     }
 
 
     .topbar {
 
-        align-items: center;
+        padding: 0 20px;
+
+        gap: 15px;
+
     }
 
 
-    .topbar h2 {
+    .menu-mobile {
 
-        font-size: 24px;
+        display: block;
+
     }
 
 
-    .topbar p {
-
-        margin-left: 40px;
-    }
-
-
-    .topbar-right {
+    .usuario-info {
 
         display: none;
+
+    }
+
+
+    .dashboard {
+
+        padding: 20px;
+
     }
 
 
     .cards {
 
         grid-template-columns: 1fr;
+
     }
 
 
-    .dashboard-grid {
+    .topbar-titulo h1 {
 
-        grid-template-columns: 1fr;
-    }
+        font-size: 20px;
 
-
-    .bottom-panel {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 20px;
-    }
-
-
-    .system-version {
-
-        text-align: left;
-    }
-
-}
-
-
-/* =========================
-   SMALL MOBILE
-========================= */
-
-@media (max-width: 400px) {
-
-    .main {
-
-        padding: 15px;
-    }
-
-
-    .card {
-
-        padding: 18px;
-    }
-
-
-    .panel {
-
-        padding: 18px;
-    }
-
-
-    .topbar h2 {
-
-        font-size: 21px;
     }
 
 }

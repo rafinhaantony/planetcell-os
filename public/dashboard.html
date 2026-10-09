@@ -21,80 +21,98 @@
 
 <body>
 
-    <!-- =========================
+    <!-- =================================
          SIDEBAR
-    ========================== -->
+    ================================== -->
 
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
-        <div class="logo">
+        <div class="sidebar-logo">
 
-            <div class="logo-icon">
-                P
-            </div>
+            <img
+                src="img/logo-planetcell.png"
+                alt="PlanetCell"
+            >
 
-            <div>
-                <h1>PlanetCell</h1>
-                <span>OS</span>
-            </div>
+            <span>PlanetCell OS</span>
 
         </div>
 
 
         <nav class="menu">
 
-            <p class="menu-title">
-                PRINCIPAL
-            </p>
-
             <a
-                href="#"
+                href="dashboard.html"
                 class="menu-item active"
             >
-                <span>▦</span>
-                Dashboard
+
+                <span class="icone">▦</span>
+
+                <span>Dashboard</span>
+
             </a>
 
-
-            <p class="menu-title">
-                GESTÃO
-            </p>
 
             <a
-                href="clientes.html"
+                href="/clientes.html"
                 class="menu-item"
             >
-                <span>♙</span>
-                Clientes
+
+                <span class="icone">👥</span>
+
+                <span>Clientes</span>
+
             </a>
+
 
             <a
-                href="aparelhos.html"
-                class="menu-item"
+                href="/aparelhos.html"
+                class="nav-link ativo"
             >
-                <span>▣</span>
-                Aparelhos
+
+                <span class="icone">📱</span>
+
+                <span>Aparelhos</span>
+
             </a>
 
-            <a
-                href="ordens.html"
-                class="menu-item"
-            >
-                <span>⚙</span>
-                Ordens de Serviço
-            </a>
-
-
-            <p class="menu-title">
-                SISTEMA
-            </p>
 
             <a
                 href="#"
                 class="menu-item"
             >
-                <span>⚙</span>
-                Configurações
+
+                <span class="icone">🔧</span>
+
+                <span>Ordens de Serviço</span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+
+                <span class="icone">📊</span>
+
+                <span>Relatórios</span>
+
+            </a>
+
+
+            <div class="menu-separador"></div>
+
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+
+                <span class="icone">⚙️</span>
+
+                <span>Configurações</span>
+
             </a>
 
         </nav>
@@ -102,32 +120,15 @@
 
         <div class="sidebar-bottom">
 
-            <div class="user">
-
-                <div class="user-avatar">
-                    A
-                </div>
-
-                <div class="user-info">
-
-                    <strong>
-                        Administrador
-                    </strong>
-
-                    <span>
-                        Administrador
-                    </span>
-
-                </div>
-
-            </div>
-
-
             <button
-                class="logout"
-                onclick="sair()"
+                id="botaoSair"
+                class="botao-sair"
             >
-                ↪ Sair
+
+                <span>↪</span>
+
+                Sair
+
             </button>
 
         </div>
@@ -135,9 +136,9 @@
     </aside>
 
 
-    <!-- =========================
-         CONTEÚDO
-    ========================== -->
+    <!-- =================================
+         CONTEÚDO PRINCIPAL
+    ================================== -->
 
     <main class="main">
 
@@ -145,37 +146,38 @@
 
         <header class="topbar">
 
-            <div>
+            <button
+                id="menuMobile"
+                class="menu-mobile"
+            >
 
-                <button
-                    class="mobile-menu"
-                    onclick="abrirMenu()"
-                >
-                    ☰
-                </button>
+                ☰
 
-                <span class="page-label">
-                    PAINEL DE CONTROLE
-                </span>
+            </button>
 
-                <h2>
-                    Dashboard
-                </h2>
+
+            <div class="topbar-titulo">
+
+                <h1>Dashboard</h1>
 
                 <p>
-                    Acompanhe o desempenho da PlanetCell.
+                    Visão geral da sua operação
                 </p>
 
             </div>
 
 
-            <div class="topbar-right">
+            <div class="usuario">
 
-                <div class="status-online">
+                <div class="usuario-avatar">
+                    A
+                </div>
 
-                    <span></span>
+                <div class="usuario-info">
 
-                    Sistema online
+                    <strong>Administrador</strong>
+
+                    <span>Administrador</span>
 
                 </div>
 
@@ -184,317 +186,306 @@
         </header>
 
 
-        <!-- =========================
-             CARDS
-        ========================== -->
+        <!-- =================================
+             DASHBOARD
+        ================================== -->
 
-        <section class="cards">
+        <section class="dashboard">
 
-            <div class="card">
+            <!-- CARDS -->
 
-                <div class="card-top">
+            <div class="cards">
 
-                    <div class="card-icon blue">
+                <div class="card-indicador">
+
+                    <div>
+
+                        <span class="card-label">
+                            Clientes
+                        </span>
+
+                        <strong id="totalClientes">
+                            0
+                        </strong>
+
+                        <small>
+                            Clientes cadastrados
+                        </small>
+
+                    </div>
+
+                    <div class="card-icone azul">
                         👥
                     </div>
 
-                    <span class="card-label">
-                        CLIENTES
-                    </span>
-
                 </div>
 
-                <h3 id="clientes">
-                    0
-                </h3>
 
-                <p>
-                    Clientes cadastrados
-                </p>
+                <div class="card-indicador">
 
-            </div>
+                    <div>
 
+                        <span class="card-label">
+                            Aparelhos
+                        </span>
 
-            <div class="card">
+                        <strong id="totalAparelhos">
+                            0
+                        </strong>
 
-                <div class="card-top">
+                        <small>
+                            Aparelhos registrados
+                        </small>
 
-                    <div class="card-icon purple">
+                    </div>
+
+                    <div class="card-icone azul">
                         📱
                     </div>
 
-                    <span class="card-label">
-                        APARELHOS
-                    </span>
-
                 </div>
 
-                <h3 id="aparelhos">
-                    0
-                </h3>
 
-                <p>
-                    Aparelhos registrados
-                </p>
+                <div class="card-indicador">
 
-            </div>
+                    <div>
 
+                        <span class="card-label">
+                            Ordens abertas
+                        </span>
 
-            <div class="card">
+                        <strong id="ordensAbertas">
+                            0
+                        </strong>
 
-                <div class="card-top">
+                        <small>
+                            Em andamento
+                        </small>
 
-                    <div class="card-icon orange">
+                    </div>
+
+                    <div class="card-icone laranja">
                         🔧
                     </div>
 
-                    <span class="card-label">
-                        ORDENS
-                    </span>
-
                 </div>
 
-                <h3 id="ordens">
-                    0
-                </h3>
 
-                <p>
-                    Ordens de serviço
-                </p>
+                <div class="card-indicador">
 
-            </div>
+                    <div>
 
+                        <span class="card-label">
+                            Concluídas
+                        </span>
 
-            <div class="card">
+                        <strong id="ordensConcluidas">
+                            0
+                        </strong>
 
-                <div class="card-top">
+                        <small>
+                            Serviços concluídos
+                        </small>
 
-                    <div class="card-icon green">
+                    </div>
+
+                    <div class="card-icone verde">
                         ✓
                     </div>
 
-                    <span class="card-label">
-                        FINALIZADOS
-                    </span>
-
                 </div>
-
-                <h3 id="concluidos">
-                    0
-                </h3>
-
-                <p>
-                    Serviços concluídos
-                </p>
 
             </div>
 
-        </section>
+
+            <!-- =================================
+                 ÁREA INFERIOR
+            ================================== -->
+
+            <div class="dashboard-grid">
 
 
-        <!-- =========================
-             GRID PRINCIPAL
-        ========================== -->
+                <!-- ORDENS RECENTES -->
 
-        <section class="dashboard-grid">
+                <section class="painel">
 
-
-            <!-- ORDENS RECENTES -->
-
-            <div class="panel orders-panel">
-
-                <div class="panel-header">
-
-                    <div>
-
-                        <h3>
-                            Ordens recentes
-                        </h3>
-
-                        <p>
-                            Últimos serviços cadastrados
-                        </p>
-
-                    </div>
-
-                    <button>
-                        Ver todas
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="ordensLista"
-                    class="orders-list"
-                >
-
-                    <div class="empty">
+                    <div class="painel-header">
 
                         <div>
-                            📋
-                        </div>
 
-                        <strong>
-                            Nenhuma ordem encontrada
-                        </strong>
+                            <h2>
+                                Ordens recentes
+                            </h2>
 
-                        <span>
-                            As novas ordens aparecerão aqui.
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- STATUS -->
-
-            <div class="panel status-panel">
-
-                <div class="panel-header">
-
-                    <div>
-
-                        <h3>
-                            Status dos serviços
-                        </h3>
-
-                        <p>
-                            Situação atual
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="status-list">
-
-                    <div class="status-row">
-
-                        <div class="status-name">
-
-                            <span class="dot received"></span>
-
-                            Recebidos
+                            <p>
+                                Últimas ordens cadastradas
+                            </p>
 
                         </div>
 
-                        <strong id="statusRecebido">
-                            0
-                        </strong>
+
+                        <button class="botao-secundario">
+
+                            Ver todas
+
+                        </button>
 
                     </div>
 
 
-                    <div class="status-row">
+                    <div class="tabela-container">
 
-                        <div class="status-name">
+                        <table>
 
-                            <span class="dot analysis"></span>
+                            <thead>
 
-                            Em análise
+                                <tr>
+
+                                    <th>
+                                        Ordem
+                                    </th>
+
+                                    <th>
+                                        Cliente
+                                    </th>
+
+                                    <th>
+                                        Aparelho
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="tabelaOrdens">
+
+                                <tr>
+
+                                    <td colspan="4">
+
+                                        <div class="sem-dados">
+
+                                            Nenhuma ordem cadastrada.
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- STATUS -->
+
+                <section class="painel painel-status">
+
+                    <div class="painel-header">
+
+                        <div>
+
+                            <h2>
+                                Status das ordens
+                            </h2>
+
+                            <p>
+                                Situação atual
+                            </p>
 
                         </div>
 
-                        <strong id="statusAnalise">
-                            0
-                        </strong>
-
                     </div>
 
 
-                    <div class="status-row">
+                    <div class="status-lista">
 
-                        <div class="status-name">
+                        <div class="status-item">
 
-                            <span class="dot repair"></span>
+                            <div class="status-nome">
 
-                            Em manutenção
+                                <span class="bolinha aguardando"></span>
+
+                                Aguardando
+
+                            </div>
+
+                            <strong id="statusAguardando">
+                                0
+                            </strong>
 
                         </div>
 
-                        <strong id="statusManutencao">
-                            0
-                        </strong>
 
-                    </div>
+                        <div class="status-item">
 
+                            <div class="status-nome">
 
-                    <div class="status-row">
+                                <span class="bolinha andamento"></span>
 
-                        <div class="status-name">
+                                Em andamento
 
-                            <span class="dot finished"></span>
+                            </div>
 
-                            Finalizados
+                            <strong id="statusAndamento">
+                                0
+                            </strong>
 
                         </div>
 
-                        <strong id="statusFinalizado">
-                            0
-                        </strong>
+
+                        <div class="status-item">
+
+                            <div class="status-nome">
+
+                                <span class="bolinha pronto"></span>
+
+                                Pronto
+
+                            </div>
+
+                            <strong id="statusPronto">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="status-item">
+
+                            <div class="status-nome">
+
+                                <span class="bolinha entregue"></span>
+
+                                Entregue
+
+                            </div>
+
+                            <strong id="statusEntregue">
+                                0
+                            </strong>
+
+                        </div>
 
                     </div>
 
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             RESUMO
-        ========================== -->
-
-        <section class="bottom-panel">
-
-            <div>
-
-                <span>
-                    PLANETCELL OS
-                </span>
-
-                <h3>
-                    Central de gestão da assistência técnica
-                </h3>
-
-                <p>
-                    Controle clientes, aparelhos e ordens de serviço
-                    em um único lugar.
-                </p>
-
-            </div>
-
-
-            <div class="system-version">
-
-                <span>
-                    VERSÃO
-                </span>
-
-                <strong>
-                    V1.0
-                </strong>
+                </section>
 
             </div>
 
         </section>
 
     </main>
-
-
-    <!-- OVERLAY MOBILE -->
-
-    <div
-        id="overlay"
-        class="overlay"
-        onclick="abrirMenu()"
-    ></div>
 
 
     <script src="js/dashboard.js"></script>

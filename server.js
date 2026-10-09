@@ -1,546 +1,420 @@
+
 const express = require("express");
-const fs = require("fs");
 const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const PORT = 3000;
 
-const DATA_FILE = path.join(__dirname, "data.json");
-
-// ================================
-// BANCO DE DADOS
-// ================================
-
-function carregarDados() {
-
-    if (!fs.existsSync(DATA_FILE)) {
-
-        const dadosIniciais = {
-            usuarios: [
-                {
-                    id: 1,
-                    nome: "Administrador",
-                    email: "admin@planetcell.com.br",
-                    senha: "123456"
-                }
-            ],
-
-            clientes: [],
-
-            aparelhos: [],
-
-            ordens: []
-        };
-
-        fs.writeFileSync(
-            DATA_FILE,
-            JSON.stringify(dadosIniciais, null, 2),
-            "utf8"
-        );
-
-        console.log("✅ data.json criado com sucesso!");
-    }
-
-    const arquivo = fs.readFileSync(
-        DATA_FILE,
-        "utf8"
-    );
-
-    return JSON.parse(arquivo);
-}
-
-
-function salvarDados(dados) {
-
-    fs.writeFileSync(
-        DATA_FILE,
-        JSON.stringify(dados, null, 2),
-        "utf8"
-    );
-
-}
-
-
-function proximoId(lista) {
-
-    if (lista.length === 0) {
-        return 1;
-    }
-
-    return Math.max(
-        ...lista.map(item => item.id)
-    ) + 1;
-}
-
-
-// ================================
-// INICIALIZAÇÃO
-// ================================
-
-carregarDados();
+const arquivoClientes = path.join(
+    __dirname,
+    "clientes.json"
+);
 
 app.use(express.json());
 
+app.use(express.static(
+    path.join(__dirname, "public"),
+    { index: "index.html" }
+));
 
-// ================================
-// PÁGINAS
-// ================================
-
-// Página inicial → Login
-
-app.get("/", (req, res) => {
-
+app.get("/teste-aparelhos", (req, res) => {
     res.sendFile(
-        path.join(
-            __dirname,
-            "public",
-            "login.html"
-        )
+        path.join(__dirname, "public", "aparelhos.html")
     );
-
 });
 
+app.get("/aparelhos.html", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "public", "aparelhos.html")
+    );
+});
 
-// Arquivos públicos
+// =================================
+// BANCO DE DADOS EM ARQUIVO
+// =================================
 
-app.use(
-    express.static(
-        path.join(__dirname, "public")
-    )
-);
+function lerClientes() {
+    if (!fs.existsSync(arquivoClientes)) {
+        fs.writeFileSync(
+            arquivoClientes,
+            JSON.stringify([], null, 2)
+        );
+    }
 
+    return JSON.parse(
+        fs.readFileSync(arquivoClientes, "utf8")
+    );
+}
 
-// ================================
-// LOGIN
-// ================================
+function salvarClientes(clientes) {
+    fs.writeFileSync(
+        arquivoClientes,
+        JSON.stringify(clientes, null, 2)
+    );
+}
+
+// =================================
+// LOGIN TEMPORÁRIO
+// =================================
 
 app.post("/api/login", (req, res) => {
-
     const { email, senha } = req.body;
 
-    const dados = carregarDados();
-
-    const usuario = dados.usuarios.find(
-        usuario =>
-            usuario.email === email &&
-            usuario.senha === senha
-    );
-
-    if (!usuario) {
-
+    if (
+        email !== "admin@planetcell.com.br" ||
+        senha !== "123456"
+    ) {
         return res.status(401).json({
-
             sucesso: false,
-
-            mensagem:
-                "E-mail ou senha incorretos."
-
+            mensagem: "E-mail ou senha incorretos."
         });
-
     }
 
     res.json({
-
         sucesso: true,
-
         usuario: {
-
-            id: usuario.id,
-
-            nome: usuario.nome,
-
-            email: usuario.email
-
+            id: 1,
+            nome: "Administrador",
+            email
         }
-
     });
-
 });
 
-
-// ================================
-// DASHBOARD
-// ================================
-
-app.get("/api/dashboard", (req, res) => {
-
-    const dados = carregarDados();
-
-    res.json({
-
-        clientes:
-            dados.clientes.length,
-
-        aparelhos:
-            dados.aparelhos.length,
-
-        ordens:
-            dados.ordens.length,
-
-        concluidos:
-            dados.ordens.filter(
-                ordem =>
-                    ordem.status === "Finalizado"
-            ).length
-
-    });
-
-});
-
-
-// ================================
-// CLIENTES
-// ================================
-
-// Listar clientes
+// =================================
+// LISTAR CLIENTES
+// =================================
 
 app.get("/api/clientes", (req, res) => {
-
-    const dados = carregarDados();
-
-    res.json(dados.clientes);
-
+    res.json(lerClientes());
 });
 
-
-// Criar cliente
+// =================================
+// CADASTRAR CLIENTE
+// =================================
 
 app.post("/api/clientes", (req, res) => {
+    const { nome, telefone, email, observacoes } = req.body;
 
-    const dados = carregarDados();
-
-    const novoCliente = {
-
-        id: proximoId(
-            dados.clientes
-        ),
-
-        nome: req.body.nome,
-
-        telefone: req.body.telefone,
-
-        email:
-            req.body.email || "",
-
-        criadoEm:
-            new Date().toISOString()
-
-    };
-
-    dados.clientes.push(
-        novoCliente
-    );
-
-    salvarDados(dados);
-
-    res.json(novoCliente);
-
-});
-
-
-// ================================
-// APARELHOS
-// ================================
-
-// Listar aparelhos
-
-app.get("/api/aparelhos", (req, res) => {
-
-    const dados = carregarDados();
-
-    res.json(dados.aparelhos);
-
-});
-
-
-// Criar aparelho
-
-app.post("/api/aparelhos", (req, res) => {
-
-    const dados = carregarDados();
-
-    const novoAparelho = {
-
-        id: proximoId(
-            dados.aparelhos
-        ),
-
-        clienteId:
-            req.body.clienteId,
-
-        marca:
-            req.body.marca,
-
-        modelo:
-            req.body.modelo,
-
-        imei:
-            req.body.imei || "",
-
-        defeito:
-            req.body.defeito || "",
-
-        status:
-            "Recebido",
-
-        criadoEm:
-            new Date().toISOString()
-
-    };
-
-    dados.aparelhos.push(
-        novoAparelho
-    );
-
-    salvarDados(dados);
-
-    res.json(novoAparelho);
-
-});
-
-
-// Atualizar status do aparelho
-
-app.put(
-    "/api/aparelhos/:id/status",
-    (req, res) => {
-
-        const dados = carregarDados();
-
-        const id =
-            Number(req.params.id);
-
-        const aparelho =
-            dados.aparelhos.find(
-                aparelho =>
-                    aparelho.id === id
-            );
-
-        if (!aparelho) {
-
-            return res.status(404).json({
-
-                mensagem:
-                    "Aparelho não encontrado."
-
-            });
-
-        }
-
-        aparelho.status =
-            req.body.status;
-
-        salvarDados(dados);
-
-        res.json(aparelho);
-
+    if (
+        typeof nome !== "string" ||
+        !nome.trim() ||
+        typeof telefone !== "string" ||
+        !telefone.trim()
+    ) {
+        return res.status(400).json({
+            mensagem: "Nome e telefone são obrigatórios."
+        });
     }
+
+    const clientes = lerClientes();
+
+    const cliente = {
+        id: Date.now().toString(),
+        nome: nome.trim(),
+        telefone: telefone.trim(),
+        email: typeof email === "string" ? email.trim() : "",
+        observacoes: typeof observacoes === "string"
+            ? observacoes.trim()
+            : "",
+        data: new Date().toLocaleDateString("pt-BR")
+    };
+
+    clientes.push(cliente);
+    salvarClientes(clientes);
+
+    res.status(201).json(cliente);
+});
+
+// =================================
+// EDITAR CLIENTE
+// =================================
+
+app.put("/api/clientes/:id", (req, res) => {
+    const clientes = lerClientes();
+
+    const indice = clientes.findIndex(
+        cliente => cliente.id === req.params.id
+    );
+
+    if (indice === -1) {
+        return res.status(404).json({
+            mensagem: "Cliente não encontrado."
+        });
+    }
+
+    const { nome, telefone, email, observacoes } = req.body;
+
+    if (
+        typeof nome !== "string" ||
+        !nome.trim() ||
+        typeof telefone !== "string" ||
+        !telefone.trim()
+    ) {
+        return res.status(400).json({
+            mensagem: "Nome e telefone são obrigatórios."
+        });
+    }
+
+    clientes[indice] = {
+        ...clientes[indice],
+        nome: nome.trim(),
+        telefone: telefone.trim(),
+        email: typeof email === "string" ? email.trim() : "",
+        observacoes: typeof observacoes === "string"
+            ? observacoes.trim()
+            : ""
+    };
+
+    salvarClientes(clientes);
+
+    res.json(clientes[indice]);
+});
+
+// =================================
+// EXCLUIR CLIENTE
+// =================================
+
+app.delete("/api/clientes/:id", (req, res) => {
+    const clientes = lerClientes();
+
+    const atualizados = clientes.filter(
+        cliente => cliente.id !== req.params.id
+    );
+
+    if (atualizados.length === clientes.length) {
+        return res.status(404).json({
+            mensagem: "Cliente não encontrado."
+        });
+    }
+
+    salvarClientes(atualizados);
+
+    res.json({ sucesso: true });
+});
+
+
+ // =================================
+ // LISTAR APARELHOS
+ // =================================
+
+const arquivoAparelhos = path.join(
+    __dirname,
+    "aparelhos.json"
 );
 
-
-// ================================
-// ORDENS DE SERVIÇO
-// ================================
-
-// Listar ordens
-
-app.get("/api/ordens", (req, res) => {
-
-    const dados = carregarDados();
-
-    res.json(dados.ordens);
-
-});
-
-
-// Buscar uma ordem específica
-
-app.get("/api/ordens/:id", (req, res) => {
-
-    const dados = carregarDados();
-
-    const id = Number(req.params.id);
-
-    const ordem = dados.ordens.find(
-        ordem => ordem.id === id
-    );
-
-    if (!ordem) {
-
-        return res.status(404).json({
-            sucesso: false,
-            mensagem: "Ordem não encontrada."
-        });
-
+function lerAparelhos() {
+    if (!fs.existsSync(arquivoAparelhos)) {
+        fs.writeFileSync(
+            arquivoAparelhos,
+            JSON.stringify([], null, 2)
+        );
     }
 
-    res.json(ordem);
-
-});
-
-
-// Criar ordem
-
-app.post("/api/ordens", (req, res) => {
-
-    const dados = carregarDados();
-
-    const novaOrdem = {
-
-        id: proximoId(
-            dados.ordens
-        ),
-
-        clienteId:
-            Number(req.body.clienteId),
-
-        aparelhoId:
-            Number(req.body.aparelhoId),
-
-        descricao:
-            req.body.descricao || "",
-
-        diagnostico:
-            req.body.diagnostico || "",
-
-        valor:
-            Number(req.body.valor) || 0,
-
-        status:
-            "Recebido",
-
-        observacoes:
-            req.body.observacoes || "",
-
-        criadoEm:
-            new Date().toISOString(),
-
-        atualizadoEm:
-            new Date().toISOString()
-
-    };
-
-    dados.ordens.push(
-        novaOrdem
+    return JSON.parse(
+        fs.readFileSync(arquivoAparelhos, "utf8")
     );
+}
 
-    salvarDados(dados);
+function salvarAparelhos(aparelhos) {
+    fs.writeFileSync(
+        arquivoAparelhos,
+        JSON.stringify(aparelhos, null, 2)
+    );
+}
 
-    res.json(novaOrdem);
+// =================================
+// LISTAR APARELHOS
+// =================================
 
-});
+app.get("/api/aparelhos", (req, res) => {
+    const aparelhos = lerAparelhos();
+    const clientes = lerClientes();
 
-
-// Atualizar ordem
-
-app.put("/api/ordens/:id", (req, res) => {
-
-    const dados = carregarDados();
-
-    const id =
-        Number(req.params.id);
-
-    const ordem =
-        dados.ordens.find(
-            ordem =>
-                ordem.id === id
+    const resultado = aparelhos.map(aparelho => {
+        const cliente = clientes.find(
+            item => item.id === aparelho.clienteId
         );
 
-    if (!ordem) {
+        return {
+            ...aparelho,
+            clienteNome: cliente
+                ? cliente.nome
+                : "Cliente não encontrado"
+        };
+    });
 
-        return res.status(404).json({
-
-            sucesso: false,
-
-            mensagem:
-                "Ordem não encontrada."
-
-        });
-
-    }
-
-
-    if (
-        req.body.status !== undefined
-    ) {
-
-        ordem.status =
-            req.body.status;
-
-    }
-
-
-    if (
-        req.body.diagnostico !== undefined
-    ) {
-
-        ordem.diagnostico =
-            req.body.diagnostico;
-
-    }
-
-
-    if (
-        req.body.valor !== undefined
-    ) {
-
-        ordem.valor =
-            Number(req.body.valor);
-
-    }
-
-
-    if (
-        req.body.observacoes !== undefined
-    ) {
-
-        ordem.observacoes =
-            req.body.observacoes;
-
-    }
-
-
-    ordem.atualizadoEm =
-        new Date().toISOString();
-
-
-    salvarDados(dados);
-
-    res.json(ordem);
-
+    res.json(resultado);
 });
 
+// =================================
+// CADASTRAR APARELHO
+// =================================
 
-// ================================
-// SERVIDOR
-// ================================
+app.post("/api/aparelhos", (req, res) => {
+    const {
+        clienteId,
+        marca,
+        modelo,
+        defeito
+    } = req.body;
+
+    if (
+        typeof clienteId !== "string" ||
+        !clienteId.trim() ||
+        typeof marca !== "string" ||
+        !marca.trim() ||
+        typeof modelo !== "string" ||
+        !modelo.trim() ||
+        typeof defeito !== "string" ||
+        !defeito.trim()
+    ) {
+        return res.status(400).json({
+            mensagem:
+                "Cliente, marca, modelo e defeito são obrigatórios."
+        });
+    }
+
+    const clientes = lerClientes();
+
+    const clienteExiste = clientes.some(
+        cliente => cliente.id === clienteId
+    );
+
+    if (!clienteExiste) {
+        return res.status(404).json({
+            mensagem: "Cliente não encontrado."
+        });
+    }
+
+    const aparelhos = lerAparelhos();
+
+    const aparelho = {
+        id: Date.now().toString(),
+        clienteId,
+        marca: marca.trim(),
+        modelo: modelo.trim(),
+        defeito: defeito.trim(),
+        dataCadastro: new Date().toISOString()
+    };
+
+    aparelhos.push(aparelho);
+    salvarAparelhos(aparelhos);
+
+    res.status(201).json({
+        mensagem: "Aparelho cadastrado com sucesso!",
+        aparelho
+    });
+});
+
+// =================================
+// EDITAR APARELHO
+// =================================
+
+app.put("/api/aparelhos/:id", (req, res) => {
+    const aparelhos = lerAparelhos();
+
+    const indice = aparelhos.findIndex(
+        aparelho => aparelho.id === req.params.id
+    );
+
+    if (indice === -1) {
+        return res.status(404).json({
+            mensagem: "Aparelho não encontrado."
+        });
+    }
+
+    const {
+        clienteId,
+        marca,
+        modelo,
+        defeito
+    } = req.body;
+
+    if (
+        typeof clienteId !== "string" ||
+        !clienteId.trim() ||
+        typeof marca !== "string" ||
+        !marca.trim() ||
+        typeof modelo !== "string" ||
+        !modelo.trim() ||
+        typeof defeito !== "string" ||
+        !defeito.trim()
+    ) {
+        return res.status(400).json({
+            mensagem:
+                "Cliente, marca, modelo e defeito são obrigatórios."
+        });
+    }
+
+    const clientes = lerClientes();
+
+    if (!clientes.some(cliente => cliente.id === clienteId)) {
+        return res.status(404).json({
+            mensagem: "Cliente não encontrado."
+        });
+    }
+
+    aparelhos[indice] = {
+        ...aparelhos[indice],
+        clienteId,
+        marca: marca.trim(),
+        modelo: modelo.trim(),
+        defeito: defeito.trim()
+    };
+
+    salvarAparelhos(aparelhos);
+
+    res.json({
+        mensagem: "Aparelho atualizado com sucesso!",
+        aparelho: aparelhos[indice]
+    });
+});
+
+// =================================
+// EXCLUIR APARELHO
+// =================================
+
+app.delete("/api/aparelhos/:id", (req, res) => {
+    const aparelhos = lerAparelhos();
+
+    const atualizados = aparelhos.filter(
+        aparelho => aparelho.id !== req.params.id
+    );
+
+    if (atualizados.length === aparelhos.length) {
+        return res.status(404).json({
+            mensagem: "Aparelho não encontrado."
+        });
+    }
+
+    salvarAparelhos(atualizados);
+
+    res.json({
+        sucesso: true,
+        mensagem: "Aparelho excluído com sucesso!"
+    });
+});
+
+app.get("/api/dashboard", (req, res) => {
+    const clientes = lerClientes();
+
+    res.json({
+        totalClientes: clientes.length,
+        totalAparelhos: 0,
+        ordensAbertas: 0,
+        ordensConcluidas: 0,
+        aguardando: 0,
+        andamento: 0,
+        pronto: 0,
+        entregue: 0
+    });
+});
+
+// =================================
+// INICIAR SERVIDOR
+// =================================
 
 app.listen(PORT, () => {
-
-    console.log("");
-
-    console.log(
-        "===================================="
-    );
-
-    console.log(
-        "      PLANETCELL OS - V1"
-    );
-
-    console.log(
-        "===================================="
-    );
-
-    console.log(
-        `🚀 Sistema rodando em: http://localhost:${PORT}`
-    );
-
-    console.log(
-        "📁 Banco local: data.json"
-    );
-
-    console.log(
-        "===================================="
-    );
-
+    console.log(`PlanetCell OS: http://localhost:${PORT}`);
 });

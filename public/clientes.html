@@ -23,30 +23,24 @@
 
     <!-- SIDEBAR -->
 
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
-        <div class="logo">
+        <div class="sidebar-logo">
 
-            <div class="logo-icon">
-                P
-            </div>
+            <img
+                src="img/logo-planetcell.png"
+                alt="PlanetCell"
+            >
 
-            <div>
-                <h1>PlanetCell</h1>
-                <span>OS</span>
-            </div>
+            <span>PlanetCell OS</span>
 
         </div>
 
 
         <nav class="menu">
 
-            <p class="menu-title">
-                PRINCIPAL
-            </p>
-
             <a
-                href="dashboard.html"
+                href="/dashboard.html"
                 class="menu-item"
             >
                 <span>▦</span>
@@ -54,44 +48,50 @@
             </a>
 
 
-            <p class="menu-title">
-                GESTÃO
-            </p>
-
             <a
-                href="clientes.html"
+                href="/clientes.html"
                 class="menu-item active"
             >
-                <span>♙</span>
+                <span>👥</span>
                 Clientes
             </a>
 
-            <a
-                href="aparelhos.html"
-                class="menu-item"
-            >
-                <span>▣</span>
-                Aparelhos
-            </a>
-
-            <a
-                href="ordens.html"
-                class="menu-item"
-            >
-                <span>⚙</span>
-                Ordens de Serviço
-            </a>
-
-
-            <p class="menu-title">
-                SISTEMA
-            </p>
 
             <a
                 href="#"
                 class="menu-item"
             >
-                <span>⚙</span>
+                <span>📱</span>
+                Aparelhos
+            </a>
+
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+                <span>🔧</span>
+                Ordens de Serviço
+            </a>
+
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+                <span>📊</span>
+                Relatórios
+            </a>
+
+
+            <div class="menu-separador"></div>
+
+
+            <a
+                href="#"
+                class="menu-item"
+            >
+                <span>⚙️</span>
                 Configurações
             </a>
 
@@ -100,30 +100,9 @@
 
         <div class="sidebar-bottom">
 
-            <div class="user">
-
-                <div class="user-avatar">
-                    A
-                </div>
-
-                <div class="user-info">
-
-                    <strong>
-                        Administrador
-                    </strong>
-
-                    <span>
-                        Administrador
-                    </span>
-
-                </div>
-
-            </div>
-
-
             <button
-                class="logout"
-                onclick="sair()"
+                id="botaoSair"
+                class="botao-sair"
             >
                 ↪ Sair
             </button>
@@ -139,142 +118,150 @@
 
         <header class="topbar">
 
+            <button
+                id="menuMobile"
+                class="menu-mobile"
+            >
+                ☰
+            </button>
+
+
             <div>
 
-                <button
-                    class="mobile-menu"
-                    onclick="abrirMenu()"
-                >
-                    ☰
-                </button>
-
-                <span class="page-label">
-                    GESTÃO
-                </span>
-
-                <h2>
-                    Clientes
-                </h2>
+                <h1>Clientes</h1>
 
                 <p>
-                    Gerencie os clientes da PlanetCell.
+                    Gerencie os clientes da PlanetCell
                 </p>
+
+            </div>
+
+
+            <div class="usuario">
+
+                <div class="usuario-avatar">
+                    A
+                </div>
+
+                <div class="usuario-info">
+
+                    <strong>Administrador</strong>
+
+                    <span>Administrador</span>
+
+                </div>
 
             </div>
 
         </header>
 
 
-        <!-- AÇÕES -->
+        <!-- ÁREA PRINCIPAL -->
 
-        <section class="actions">
+        <section class="conteudo">
 
-            <div class="search">
+            <!-- CABEÇALHO -->
 
-                <span>
-                    🔎
-                </span>
+            <div class="cabecalho-pagina">
+
+                <div>
+
+                    <h2>
+                        Lista de clientes
+                    </h2>
+
+                    <p>
+                        Cadastre e gerencie seus clientes.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="botao-principal"
+                    id="botaoNovoCliente"
+                >
+                    + Novo cliente
+                </button>
+
+            </div>
+
+
+            <!-- PESQUISA -->
+
+            <div class="barra-pesquisa">
+
+                <span>🔎</span>
 
                 <input
                     type="text"
-                    id="busca"
-                    placeholder="Buscar cliente..."
+                    id="pesquisa"
+                    placeholder="Pesquisar por nome, telefone ou e-mail..."
                 >
 
             </div>
 
 
-            <button
-                class="btn-primary"
-                onclick="abrirModal()"
-            >
-                + Novo cliente
-            </button>
+            <!-- TABELA -->
 
-        </section>
+            <section class="painel">
+
+                <div class="tabela-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Cliente
+                                </th>
+
+                                <th>
+                                    Telefone
+                                </th>
+
+                                <th>
+                                    E-mail
+                                </th>
+
+                                <th>
+                                    Cadastro
+                                </th>
+
+                                <th>
+                                    Ações
+                                </th>
+
+                            </tr>
+
+                        </thead>
 
 
-        <!-- TABELA -->
+                        <tbody id="tabelaClientes">
 
-        <section class="panel">
+                            <tr>
 
-            <div class="panel-header">
+                                <td colspan="5">
 
-                <div>
+                                    <div class="sem-dados">
 
-                    <h3>
-                        Clientes cadastrados
-                    </h3>
+                                        Nenhum cliente cadastrado.
 
-                    <p id="totalClientes">
-                        0 clientes
-                    </p>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
 
                 </div>
 
-            </div>
-
-
-            <div class="table-container">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                ID
-                            </th>
-
-                            <th>
-                                CLIENTE
-                            </th>
-
-                            <th>
-                                TELEFONE
-                            </th>
-
-                            <th>
-                                E-MAIL
-                            </th>
-
-                            <th>
-                                CADASTRO
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="clientesTabela">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <div
-                id="vazio"
-                class="empty"
-            >
-
-                <div>
-                    👥
-                </div>
-
-                <strong>
-                    Nenhum cliente cadastrado
-                </strong>
-
-                <span>
-                    Clique em "Novo cliente" para começar.
-                </span>
-
-            </div>
+            </section>
 
         </section>
 
@@ -284,42 +271,49 @@
     <!-- MODAL -->
 
     <div
+        class="modal-fundo"
         id="modal"
-        class="modal"
     >
 
-        <div class="modal-content">
+        <div class="modal">
 
             <div class="modal-header">
 
                 <div>
 
-                    <span>
-                        NOVO CADASTRO
-                    </span>
+                    <h2 id="tituloModal">
+                        Novo cliente
+                    </h2>
 
-                    <h3>
-                        Cadastrar cliente
-                    </h3>
+                    <p>
+                        Preencha os dados do cliente.
+                    </p>
 
                 </div>
 
+
                 <button
-                    onclick="fecharModal()"
-                    class="close"
+                    class="fechar-modal"
+                    id="fecharModal"
                 >
-                    ✖
+                    ×
                 </button>
 
             </div>
 
 
-            <form id="clienteForm">
+            <form id="formCliente">
+
+                <input
+                    type="hidden"
+                    id="clienteId"
+                >
+
 
                 <div class="campo">
 
                     <label for="nome">
-                        Nome completo
+                        Nome completo *
                     </label>
 
                     <input
@@ -332,33 +326,51 @@
                 </div>
 
 
-                <div class="campo">
+                <div class="linha">
 
-                    <label for="telefone">
-                        Telefone
-                    </label>
+                    <div class="campo">
 
-                    <input
-                        type="tel"
-                        id="telefone"
-                        placeholder="(19) 99999-9999"
-                        required
-                    >
+                        <label for="telefone">
+                            Telefone *
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="telefone"
+                            placeholder="(19) 99999-9999"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="cliente@email.com"
+                        >
+
+                    </div>
 
                 </div>
 
 
                 <div class="campo">
 
-                    <label for="email">
-                        E-mail
+                    <label for="observacoes">
+                        Observações
                     </label>
 
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="cliente@email.com"
-                    >
+                    <textarea
+                        id="observacoes"
+                        placeholder="Observações sobre o cliente..."
+                    ></textarea>
 
                 </div>
 
@@ -369,21 +381,23 @@
                 ></div>
 
 
-                <div class="modal-buttons">
+                <div class="modal-botoes">
 
                     <button
                         type="button"
-                        class="btn-cancelar"
-                        onclick="fecharModal()"
+                        class="botao-cancelar"
+                        id="cancelar"
                     >
                         Cancelar
                     </button>
 
+
                     <button
                         type="submit"
-                        class="btn-primary"
+                        class="botao-salvar"
+                        id="salvar"
                     >
-                        Cadastrar cliente
+                        Salvar cliente
                     </button>
 
                 </div>
@@ -393,13 +407,6 @@
         </div>
 
     </div>
-
-
-    <div
-        id="overlay"
-        class="overlay"
-        onclick="fecharModal()"
-    ></div>
 
 
     <script src="js/clientes.js"></script>

@@ -1,519 +1,211 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Aparelhos | PlanetCell OS</title>
 
-    <link
-        rel="stylesheet"
-        href="css/aparelhos.css"
-    >
-
+    <link rel="stylesheet" href="/css/aparelhos.css">
+    <script src="/js/aparelhos.js" defer></script> 
 </head>
-
 <body>
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+    </head>
+<body>
 
-    <aside class="sidebar">
-
+    <aside class="sidebar" id="sidebar">
         <div class="logo">
-
-            <div class="logo-icon">
-                P
+            <div class="logo-icon">P</div>
+            <div>
+                <h2>PlanetCell</h2>
+                <span>OS • Gestão técnica</span>
             </div>
-
-            <div class="logo-text">
-
-                <h1>PlanetCell</h1>
-
-                <span>OS</span>
-
-            </div>
-
         </div>
 
+        <p class="menu-label">MENU PRINCIPAL</p>
 
-        <nav class="menu">
-
-            <p class="menu-title">
-                PRINCIPAL
-            </p>
-
-            <a
-                href="dashboard.html"
-                class="menu-item"
-            >
-                <span>▦</span>
-                Dashboard
+        <nav>
+            <a href="/dashboard.html" class="nav-link">
+                <span>▦</span> Dashboard
             </a>
 
-
-            <p class="menu-title">
-                GESTÃO
-            </p>
-
-            <a
-                href="clientes.html"
-                class="menu-item"
-            >
-                <span>♙</span>
-                Clientes
+            <a href="/clientes.html" class="nav-link">
+                <span>♙</span> Clientes
             </a>
 
-
-            <a
-                href="aparelhos.html"
-                class="menu-item active"
-            >
-                <span>▣</span>
-                Aparelhos
+            <a href="/aparelhos.html" class="nav-link ativo">
+                <span>▣</span> Aparelhos
             </a>
 
-
-            <a
-                href="ordens.html"
-                class="menu-item"
-            >
-                <span>⚙</span>
-                Ordens de Serviço
+            <a href="/ordens.html" class="nav-link">
+                <span>▤</span> Ordens de Serviço
             </a>
-
-
-            <p class="menu-title">
-                SISTEMA
-            </p>
-
-            <a
-                href="#"
-                class="menu-item"
-            >
-                <span>⚙</span>
-                Configurações
-            </a>
-
         </nav>
 
-
         <div class="sidebar-bottom">
-
-            <div class="user">
-
-                <div class="user-avatar">
-                    A
+            <div class="usuario">
+                <div class="avatar">A</div>
+                <div>
+                    <strong>Administrador</strong>
+                    <span>Gestão da loja</span>
                 </div>
-
-                <div class="user-info">
-
-                    <strong>
-                        Administrador
-                    </strong>
-
-                    <span>
-                        Administrador
-                    </span>
-
-                </div>
-
             </div>
 
-
-            <button
-                class="logout"
-                onclick="sair()"
-            >
-                ↪ Sair
+            <button id="botaoSair" class="botao-sair">
+                ↪ Sair do sistema
             </button>
-
         </div>
-
     </aside>
 
-
-    <!-- =========================
-         CONTEÚDO
-    ========================== -->
-
     <main class="main">
-
         <header class="topbar">
+            <button id="menuMobile" class="menu-mobile"
+                aria-label="Abrir menu">☰</button>
 
-            <div class="topbar-title">
-
-                <button
-                    class="mobile-menu"
-                    onclick="abrirMenu()"
-                >
-                    ☰
-                </button>
-
-                <div>
-
-                    <span class="page-label">
-                        GESTÃO
-                    </span>
-
-                    <h2>
-                        Aparelhos
-                    </h2>
-
-                    <p>
-                        Gerencie os aparelhos dos clientes.
-                    </p>
-
-                </div>
-
+            <div>
+                <span class="breadcrumb">Gestão / Aparelhos</span>
+                <h1>Controle de aparelhos</h1>
             </div>
 
+            <div class="topbar-status">
+                <span class="status-ponto"></span>
+                Sistema local
+            </div>
         </header>
 
+        <section class="conteudo">
 
-        <!-- =========================
-             AÇÕES
-        ========================== -->
-
-        <section class="actions">
-
-            <div class="search">
-
-                <span>
-                    🔎
-                </span>
-
-                <input
-                    type="text"
-                    id="busca"
-                    placeholder="Buscar por cliente, aparelho ou IMEI..."
-                >
-
-            </div>
-
-
-            <button
-                class="btn-primary"
-                onclick="abrirModal()"
-            >
-                + Novo aparelho
-            </button>
-
-        </section>
-
-
-        <!-- =========================
-             TABELA
-        ========================== -->
-
-        <section class="panel">
-
-            <div class="panel-header">
-
+            <div class="boas-vindas">
                 <div>
-
-                    <h3>
-                        Aparelhos cadastrados
-                    </h3>
-
-                    <p id="totalAparelhos">
-                        0 aparelhos
-                    </p>
-
+                    <h2>Seus aparelhos</h2>
+                    <p>Cadastre e gerencie os aparelhos recebidos pela assistência.</p>
                 </div>
 
+                <button class="botao-principal" id="botaoNovo">
+                    + Novo aparelho
+                </button>
             </div>
 
-
-            <div class="table-container">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                ID
-                            </th>
-
-                            <th>
-                                CLIENTE
-                            </th>
-
-                            <th>
-                                APARELHO
-                            </th>
-
-                            <th>
-                                IMEI
-                            </th>
-
-                            <th>
-                                DEFEITO
-                            </th>
-
-                            <th>
-                                STATUS
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="aparelhosTabela">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <div
-                id="vazio"
-                class="empty"
-            >
-
+            <div class="resumo">
+                <div class="resumo-icon">▣</div>
                 <div>
-                    📱
+                    <span>Total de aparelhos</span>
+                    <strong id="totalAparelhos">0</strong>
+                    <small>Registros cadastrados</small>
+                </div>
+            </div>
+
+            <section class="painel">
+                <div class="painel-topo">
+                    <div>
+                        <h3>Lista de aparelhos</h3>
+                        <p>Consulte os aparelhos cadastrados.</p>
+                    </div>
+
+                    <input
+                        type="search"
+                        id="pesquisa"
+                        placeholder="Buscar por modelo, marca ou cliente..."
+                        aria-label="Buscar aparelhos"
+                    >
                 </div>
 
-                <strong>
-                    Nenhum aparelho cadastrado
-                </strong>
+                <div id="mensagem" class="mensagem" role="status"></div>
 
-                <span>
-                    Clique em "Novo aparelho" para começar.
-                </span>
+                <div class="tabela-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>APARELHO</th>
+                                <th>CLIENTE</th>
+                                <th>DEFEITO RELATADO</th>
+                                <th>CADASTRO</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                        </thead>
 
-            </div>
+                        <tbody id="tabelaAparelhos"></tbody>
+                    </table>
+                </div>
 
+                <div id="vazio" class="vazio">
+                    <div class="vazio-icon">▣</div>
+                    <h3>Nenhum aparelho cadastrado</h3>
+                    <p>Cadastre o primeiro aparelho para começar.</p>
+                </div>
+            </section>
         </section>
-
     </main>
 
+    <div class="modal-overlay" id="modal">
+        <section class="modal" role="dialog"
+            aria-modal="true" aria-labelledby="tituloModal">
 
-    <!-- =========================
-         MODAL
-    ========================== -->
-
-    <div
-        id="modal"
-        class="modal"
-    >
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
+            <div class="modal-topo">
                 <div>
-
-                    <span>
-                        NOVO CADASTRO
-                    </span>
-
-                    <h3>
-                        Cadastrar aparelho
-                    </h3>
-
+                    <span class="modal-etiqueta">CADASTRO TÉCNICO</span>
+                    <h2 id="tituloModal">Novo aparelho</h2>
+                    <p>Preencha as informações do aparelho.</p>
                 </div>
 
-
-                <button
-                    class="close"
-                    onclick="fecharModal()"
-                >
-                    ×
-                </button>
-
+                <button type="button" class="fechar-modal"
+                    id="fecharModal" aria-label="Fechar">×</button>
             </div>
 
+            <form id="formAparelho">
+                <input type="hidden" id="aparelhoId">
 
-            <form id="aparelhoForm">
+                <label for="clienteId">Cliente *</label>
+                <select id="clienteId" required>
+                    <option value="">Carregando clientes...</option>
+                </select>
 
+                <div class="campos-duplos">
+                    <div>
+                        <label for="marca">Marca *</label>
+                        <select id="marca" required>
+                            <option value="">Selecione</option>
+                            <option>Apple</option>
+                            <option>Samsung</option>
+                            <option>Motorola</option>
+                            <option>Xiaomi</option>
+                            <option>Realme</option>
+                            <option>LG</option>
+                            <option>Asus</option>
+                            <option>Outra</option>
+                        </select>
+                    </div>
 
-                <!-- CLIENTE -->
-
-                <div class="campo">
-
-                    <label for="clienteId">
-                        Cliente
-                    </label>
-
-                    <select
-                        id="clienteId"
-                        required
-                    >
-
-                        <option value="">
-                            Selecione um cliente
-                        </option>
-
-                    </select>
-
+                    <div>
+                        <label for="modelo">Modelo *</label>
+                        <input id="modelo" type="text"
+                            placeholder="Ex.: Galaxy A55" required
+                            maxlength="100">
+                    </div>
                 </div>
 
+                <label for="defeito">Defeito relatado *</label>
+                <textarea id="defeito" rows="4"
+                    placeholder="Descreva o problema informado pelo cliente..."
+                    required maxlength="2000"></textarea>
 
-                <!-- MARCA -->
-
-                <div class="campo">
-
-                    <label for="marca">
-                        Marca
-                    </label>
-
-                    <select
-                        id="marca"
-                        required
-                    >
-
-                        <option value="">
-                            Selecione a marca
-                        </option>
-
-                        <option value="Apple">
-                            Apple
-                        </option>
-
-                        <option value="Samsung">
-                            Samsung
-                        </option>
-
-                        <option value="Motorola">
-                            Motorola
-                        </option>
-
-                        <option value="Xiaomi">
-                            Xiaomi
-                        </option>
-
-                        <option value="Realme">
-                            Realme
-                        </option>
-
-                        <option value="LG">
-                            LG
-                        </option>
-
-                        <option value="Asus">
-                            Asus
-                        </option>
-
-                        <option value="Outro">
-                            Outro
-                        </option>
-
-                    </select>
-
+                <div class="aviso">
+                    <span>ⓘ</span>
+                    <p>Confira as informações antes de salvar o aparelho.</p>
                 </div>
 
+                <div class="modal-acoes">
+                    <button type="button" class="botao-secundario"
+                        id="cancelar">Cancelar</button>
 
-                <!-- MODELO -->
-
-                <div class="campo">
-
-                    <label for="modelo">
-                        Modelo
-                    </label>
-
-                    <input
-                        type="text"
-                        id="modelo"
-                        placeholder="Ex.: iPhone 15 Pro"
-                        required
-                    >
-
+                    <button type="submit" class="botao-principal"
+                        id="salvar">Salvar aparelho</button>
                 </div>
-
-
-                <!-- IMEI -->
-
-                <div class="campo">
-
-                    <label for="imei">
-                        IMEI
-                    </label>
-
-                    <input
-                        type="text"
-                        id="imei"
-                        placeholder="Digite o IMEI"
-                        maxlength="20"
-                    >
-
-                </div>
-
-
-                <!-- DEFEITO -->
-
-                <div class="campo">
-
-                    <label for="defeito">
-                        Defeito informado
-                    </label>
-
-                    <textarea
-                        id="defeito"
-                        placeholder="Descreva o problema informado pelo cliente..."
-                        rows="4"
-                    ></textarea>
-
-                </div>
-
-
-                <div
-                    id="mensagem"
-                    class="mensagem"
-                ></div>
-
-
-                <div class="modal-buttons">
-
-                    <button
-                        type="button"
-                        class="btn-cancelar"
-                        onclick="fecharModal()"
-                    >
-                        Cancelar
-                    </button>
-
-
-                    <button
-                        type="submit"
-                        class="btn-primary"
-                    >
-                        Cadastrar aparelho
-                    </button>
-
-                </div>
-
             </form>
-
-        </div>
-
+        </section>
     </div>
 
-
-    <!-- OVERLAY -->
-
-    <div
-        id="overlay"
-        class="overlay"
-        onclick="fecharModal()"
-    ></div>
-
-
-    <script src="js/aparelhos.js"></script>
-
 </body>
-
 </html>

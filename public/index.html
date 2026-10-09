@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | PlanetCell OS</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <section class="card">
+
+            <!-- LOGO -->
+
+            <div class="logo-area">
+
+                <img
+                    src="img/logo-planetcell.png"
+                    alt="PlanetCell"
+                    class="logo"
+                >
+
+            </div>
+
+
+            <!-- CONTEÚDO -->
+
+            <div class="login-content">
+
+                <h1>PlanetCell OS</h1>
+
+                <p>
+                    Acesse o sistema de gestão
+                </p>
+
+
+                <!-- FORMULÁRIO -->
+
+                <form id="loginForm">
+
+                    <div class="campo">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Digite seu e-mail"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            placeholder="Digite sua senha"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div
+                        id="mensagem"
+                        class="mensagem"
+                    ></div>
+
+
+                    <button
+                        type="submit"
+                        id="botaoEntrar"
+                    >
+                        Entrar
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

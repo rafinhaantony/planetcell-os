@@ -1,636 +1,295 @@
-let aparelhos = [];
 
+const tabela = document.getElementById("tabelaAparelhos");
+const totalAparelhos = document.getElementById("totalAparelhos");
+const pesquisa = document.getElementById("pesquisa");
+const modal = document.getElementById("modal");
+const form = document.getElementById("formAparelho");
+const selectCliente = document.getElementById("clienteId");
+const mensagem = document.getElementById("mensagem");
+const vazio = document.getElementById("vazio");
+const botaoSalvar = document.getElementById("salvar");
+
+let aparelhos = [];
 let clientes = [];
 
+const campo = id => document.getElementById(id);
 
-// ================================
-// CARREGAR DADOS
-// ================================
+function mostrarMensagem(texto, tipo = "sucesso") {
+    mensagem.textContent = texto;
+    mensagem.className = `mensagem ${tipo}`;
 
-async function carregarDados() {
-
-    await carregarClientes();
-
-    await carregarAparelhos();
-
+    if (tipo === "sucesso") {
+        setTimeout(() => {
+            mensagem.className = "mensagem";
+        }, 4000);
+    }
 }
 
+function criarCelula(texto, classe = "") {
+    const td = document.createElement("td");
+    td.textContent = texto || "—";
 
-// ================================
-// CARREGAR CLIENTES
-// ================================
+    if (classe) {
+        td.className = classe;
+    }
+
+    return td;
+}
 
 async function carregarClientes() {
-
     try {
-
-        const resposta =
-            await fetch("/api/clientes");
-
+        const resposta = await fetch("/api/clientes");
 
         if (!resposta.ok) {
-
-            throw new Error(
-                "Erro ao buscar clientes."
-            );
-
+            throw new Error("Não foi possível carregar os clientes.");
         }
 
+        clientes = await resposta.json();
 
-        clientes =
-            await resposta.json();
+        selectCliente.replaceChildren();
 
+        const opcaoInicial = document.createElement("option");
+        opcaoInicial.value = "";
+        opcaoInicial.textContent = "Selecione um cliente";
+        selectCliente.appendChild(opcaoInicial);
 
-        preencherClientes();
+        clientes.forEach(cliente => {
+            const opcao = document.createElement("option");
+            opcao.value = cliente.id;
+            opcao.textContent = cliente.nome;
+            selectCliente.appendChild(opcao);
+        });
 
+        if (clientes.length === 0) {
+            mostrarMensagem(
+                "Cadastre um cliente antes de cadastrar um aparelho.",
+                "erro"
+            );
+        }
     } catch (erro) {
-
-        console.error(
-            "Erro ao carregar clientes:",
-            erro
-        );
-
+        mostrarMensagem(erro.message, "erro");
     }
-
 }
-
-
-// ================================
-// PREENCHER SELECT DE CLIENTES
-// ================================
-
-function preencherClientes() {
-
-    const select =
-        document.getElementById(
-            "clienteId"
-        );
-
-
-    select.innerHTML = `
-
-        <option value="">
-            Selecione um cliente
-        </option>
-
-    `;
-
-
-    clientes.forEach(cliente => {
-
-        const option =
-            document.createElement("option");
-
-
-        option.value =
-            cliente.id;
-
-
-        option.textContent =
-            `${cliente.nome} — ${cliente.telefone}`;
-
-
-        select.appendChild(option);
-
-    });
-
-}
-
-
-// ================================
-// CARREGAR APARELHOS
-// ================================
 
 async function carregarAparelhos() {
-
     try {
-
-        const resposta =
-            await fetch("/api/aparelhos");
-
+        const resposta = await fetch("/api/aparelhos");
 
         if (!resposta.ok) {
-
-            throw new Error(
-                "Erro ao buscar aparelhos."
-            );
-
+            throw new Error("Não foi possível carregar os aparelhos.");
         }
 
-
-        aparelhos =
-            await resposta.json();
-
-
-        mostrarAparelhos(
-            aparelhos
-        );
-
+        aparelhos = await resposta.json();
+        renderizarAparelhos();
     } catch (erro) {
-
-        console.error(
-            "Erro ao carregar aparelhos:",
-            erro
-        );
-
+        mostrarMensagem(erro.message, "erro");
     }
-
 }
 
-
-// ================================
-// ENCONTRAR CLIENTE
-// ================================
-
-function encontrarCliente(id) {
-
-    return clientes.find(
-        cliente =>
-            Number(cliente.id) === Number(id)
-    );
-
-}
-
-
-// ================================
-// MOSTRAR APARELHOS
-// ================================
-
-function mostrarAparelhos(lista) {
-
-    const tabela =
-        document.getElementById(
-            "aparelhosTabela"
-        );
-
-
-    const vazio =
-        document.getElementById(
-            "vazio"
-        );
-
-
-    const total =
-        document.getElementById(
-            "totalAparelhos"
-        );
-
-
-    tabela.innerHTML = "";
-
-
-    total.textContent =
-        lista.length === 1
-            ? "1 aparelho"
-            : `${lista.length} aparelhos`;
-
-
-    if (lista.length === 0) {
-
-        vazio.style.display =
-            "flex";
-
-        return;
-
-    }
-
-
-    vazio.style.display =
-        "none";
-
-
-    lista.forEach(aparelho => {
-
-        const linha =
-            document.createElement("tr");
-
-
-        const cliente =
-            encontrarCliente(
-                aparelho.clienteId
-            );
-
-
-        const nomeCliente =
-            cliente
-                ? cliente.nome
-                : "Cliente não encontrado";
-
-
-        const primeiraLetra =
-            nomeCliente
-                .charAt(0)
-                .toUpperCase();
-
-
-        const defeito =
-            aparelho.defeito ||
-            "Não informado";
-
-
-        linha.innerHTML = `
-
-            <td>
-                #${aparelho.id}
-            </td>
-
-
-            <td>
-
-                <div class="cliente">
-
-                    <div class="avatar">
-                        ${primeiraLetra}
-                    </div>
-
-                    ${nomeCliente}
-
-                </div>
-
-            </td>
-
-
-            <td>
-
-                <div class="aparelho">
-
-                    <strong>
-                        ${aparelho.modelo}
-                    </strong>
-
-                    <span>
-                        ${aparelho.marca}
-                    </span>
-
-                </div>
-
-            </td>
-
-
-            <td>
-
-                <span class="imei">
-
-                    ${aparelho.imei || "-"}
-
-                </span>
-
-            </td>
-
-
-            <td>
-
-                <div class="defeito">
-
-                    ${defeito}
-
-                </div>
-
-            </td>
-
-
-            <td>
-
-                <span class="status">
-
-                    <span class="status-dot"></span>
-
-                    ${aparelho.status}
-
-                </span>
-
-            </td>
-
-        `;
-
-
-        tabela.appendChild(
-            linha
-        );
-
+function renderizarAparelhos() {
+    const termo = pesquisa.value.trim().toLowerCase();
+
+    const filtrados = aparelhos.filter(aparelho => {
+        const texto = [
+            aparelho.marca,
+            aparelho.modelo,
+            aparelho.clienteNome,
+            aparelho.defeito
+        ].join(" ").toLowerCase();
+
+        return texto.includes(termo);
     });
 
-}
+    tabela.replaceChildren();
+    totalAparelhos.textContent = aparelhos.length;
+    vazio.style.display = filtrados.length === 0 ? "block" : "none";
 
-
-// ================================
-// BUSCA
-// ================================
-
-document
-    .getElementById("busca")
-    .addEventListener(
-        "input",
-        function () {
-
-            const texto =
-                this.value
-                    .toLowerCase()
-                    .trim();
-
-
-            const filtrados =
-                aparelhos.filter(
-                    aparelho => {
-
-                        const cliente =
-                            encontrarCliente(
-                                aparelho.clienteId
-                            );
-
-
-                        const nomeCliente =
-                            cliente
-                                ? cliente.nome
-                                : "";
-
-
-                        return (
-
-                            nomeCliente
-                                .toLowerCase()
-                                .includes(texto)
-
-                            ||
-
-                            (aparelho.marca || "")
-                                .toLowerCase()
-                                .includes(texto)
-
-                            ||
-
-                            (aparelho.modelo || "")
-                                .toLowerCase()
-                                .includes(texto)
-
-                            ||
-
-                            (aparelho.imei || "")
-                                .toLowerCase()
-                                .includes(texto)
-
-                        );
-
-                    }
-                );
-
-
-            mostrarAparelhos(
-                filtrados
-            );
-
-        }
-    );
-
-
-// ================================
-// ABRIR MODAL
-// ================================
-
-function abrirModal() {
-
-    if (clientes.length === 0) {
-
-        alert(
-            "Cadastre pelo menos um cliente antes de cadastrar um aparelho."
-        );
-
-        return;
-
+    if (aparelhos.length > 0 && filtrados.length === 0) {
+        vazio.querySelector("h3").textContent = "Nenhum resultado encontrado";
+        vazio.querySelector("p").textContent = "Tente pesquisar com outro termo.";
+    } else {
+        vazio.querySelector("h3").textContent = "Nenhum aparelho cadastrado";
+        vazio.querySelector("p").textContent =
+            "Cadastre o primeiro aparelho para começar.";
     }
 
+    filtrados.forEach(aparelho => {
+        const tr = document.createElement("tr");
 
-    document
-        .getElementById("modal")
-        .classList.add("show");
+        const tdAparelho = document.createElement("td");
+        const nome = document.createElement("span");
+        nome.className = "aparelho-nome";
+        nome.textContent = aparelho.modelo;
 
+        const marca = document.createElement("span");
+        marca.className = "aparelho-marca";
+        marca.textContent = aparelho.marca;
 
-    document
-        .getElementById("overlay")
-        .classList.add("show");
+        tdAparelho.append(nome, marca);
+        tr.appendChild(tdAparelho);
 
+        tr.appendChild(criarCelula(aparelho.clienteNome));
+        tr.appendChild(criarCelula(aparelho.defeito));
 
-    document
-        .getElementById("modelo")
-        .focus();
+        const data = aparelho.dataCadastro
+            ? new Date(aparelho.dataCadastro).toLocaleDateString("pt-BR")
+            : "—";
 
+        tr.appendChild(criarCelula(data));
+
+        const tdAcoes = document.createElement("td");
+
+        const botaoEditar = document.createElement("button");
+        botaoEditar.className = "acao";
+        botaoEditar.textContent = "Editar";
+        botaoEditar.addEventListener("click", () => abrirEdicao(aparelho.id));
+
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.className = "acao excluir";
+        botaoExcluir.textContent = "Excluir";
+        botaoExcluir.addEventListener("click", () => excluirAparelho(aparelho.id));
+
+        tdAcoes.append(botaoEditar, botaoExcluir);
+        tr.appendChild(tdAcoes);
+
+        tabela.appendChild(tr);
+    });
 }
 
-
-// ================================
-// FECHAR MODAL
-// ================================
+function abrirModal() {
+    modal.classList.add("aberto");
+}
 
 function fecharModal() {
-
-    document
-        .getElementById("modal")
-        .classList.remove("show");
-
-
-    document
-        .getElementById("overlay")
-        .classList.remove("show");
-
-
-    document
-        .getElementById("aparelhoForm")
-        .reset();
-
-
-    document
-        .getElementById("mensagem")
-        .textContent = "";
-
+    modal.classList.remove("aberto");
 }
 
+function abrirNovo() {
+    form.reset();
+    campo("aparelhoId").value = "";
+    campo("tituloModal").textContent = "Novo aparelho";
+    botaoSalvar.textContent = "Salvar aparelho";
+    abrirModal();
+}
 
-// ================================
-// CADASTRAR APARELHO
-// ================================
+function abrirEdicao(id) {
+    const aparelho = aparelhos.find(item => item.id === id);
 
-document
-    .getElementById("aparelhoForm")
-    .addEventListener(
-        "submit",
-        async function (event) {
+    if (!aparelho) return;
 
-            event.preventDefault();
+    form.reset();
+    campo("aparelhoId").value = aparelho.id;
+    selectCliente.value = aparelho.clienteId;
+    campo("marca").value = aparelho.marca;
+    campo("modelo").value = aparelho.modelo;
+    campo("defeito").value = aparelho.defeito;
 
+    campo("tituloModal").textContent = "Editar aparelho";
+    botaoSalvar.textContent = "Salvar alterações";
 
-            const clienteId =
-                document
-                    .getElementById(
-                        "clienteId"
-                    )
-                    .value;
+    abrirModal();
+}
 
+form.addEventListener("submit", async evento => {
+    evento.preventDefault();
 
-            const marca =
-                document
-                    .getElementById(
-                        "marca"
-                    )
-                    .value;
+    const id = campo("aparelhoId").value;
 
+    const dados = {
+        clienteId: selectCliente.value,
+        marca: campo("marca").value,
+        modelo: campo("modelo").value.trim(),
+        defeito: campo("defeito").value.trim()
+    };
 
-            const modelo =
-                document
-                    .getElementById(
-                        "modelo"
-                    )
-                    .value
-                    .trim();
+    botaoSalvar.disabled = true;
+    botaoSalvar.textContent = "Salvando...";
 
-
-            const imei =
-                document
-                    .getElementById(
-                        "imei"
-                    )
-                    .value
-                    .trim();
-
-
-            const defeito =
-                document
-                    .getElementById(
-                        "defeito"
-                    )
-                    .value
-                    .trim();
-
-
-            const mensagem =
-                document
-                    .getElementById(
-                        "mensagem"
-                    );
-
-
-            mensagem.textContent =
-                "Cadastrando aparelho...";
-
-
-            try {
-
-                const resposta =
-                    await fetch(
-                        "/api/aparelhos",
-                        {
-
-                            method: "POST",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json"
-
-                            },
-
-                            body:
-                                JSON.stringify({
-
-                                    clienteId:
-                                        Number(
-                                            clienteId
-                                        ),
-
-                                    marca,
-
-                                    modelo,
-
-                                    imei,
-
-                                    defeito
-
-                                })
-
-                        }
-                    );
-
-
-                const dados =
-                    await resposta.json();
-
-
-                if (!resposta.ok) {
-
-                    mensagem.textContent =
-                        dados.mensagem ||
-                        "Não foi possível cadastrar o aparelho.";
-
-                    return;
-
-                }
-
-
-                fecharModal();
-
-
-                await carregarAparelhos();
-
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao cadastrar aparelho:",
-                    erro
-                );
-
-
-                mensagem.textContent =
-                    "Erro ao conectar com o servidor.";
-
+    try {
+        const resposta = await fetch(
+            id ? `/api/aparelhos/${encodeURIComponent(id)}` : "/api/aparelhos",
+            {
+                method: id ? "PUT" : "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dados)
             }
+        );
 
+        const resultado = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(resultado.mensagem || "Não foi possível salvar.");
         }
+
+        fecharModal();
+        await carregarAparelhos();
+
+        mostrarMensagem(
+            id ? "Aparelho atualizado com sucesso!" : "Aparelho cadastrado com sucesso!"
+        );
+    } catch (erro) {
+        mostrarMensagem(erro.message, "erro");
+    } finally {
+        botaoSalvar.disabled = false;
+        botaoSalvar.textContent = campo("aparelhoId").value
+            ? "Salvar alterações"
+            : "Salvar aparelho";
+    }
+});
+
+async function excluirAparelho(id) {
+    const aparelho = aparelhos.find(item => item.id === id);
+
+    if (!aparelho) return;
+
+    const confirmar = window.confirm(
+        `Deseja excluir o aparelho ${aparelho.marca} ${aparelho.modelo}?`
     );
 
+    if (!confirmar) return;
 
-// ================================
-// MENU MOBILE
-// ================================
-
-function abrirMenu() {
-
-    const sidebar =
-        document.querySelector(
-            ".sidebar"
+    try {
+        const resposta = await fetch(
+            `/api/aparelhos/${encodeURIComponent(id)}`,
+            { method: "DELETE" }
         );
 
+        const resultado = await resposta.json();
 
-    const overlay =
-        document.getElementById(
-            "overlay"
-        );
+        if (!resposta.ok) {
+            throw new Error(resultado.mensagem || "Não foi possível excluir.");
+        }
 
-
-    sidebar.classList.toggle(
-        "open"
-    );
-
-
-    overlay.classList.toggle(
-        "show"
-    );
-
+        await carregarAparelhos();
+        mostrarMensagem("Aparelho excluído com sucesso!");
+    } catch (erro) {
+        mostrarMensagem(erro.message, "erro");
+    }
 }
 
+campo("botaoNovo").addEventListener("click", abrirNovo);
+campo("fecharModal").addEventListener("click", fecharModal);
+campo("cancelar").addEventListener("click", fecharModal);
 
-// ================================
-// SAIR
-// ================================
+modal.addEventListener("click", evento => {
+    if (evento.target === modal) fecharModal();
+});
 
-function sair() {
+document.addEventListener("keydown", evento => {
+    if (evento.key === "Escape") fecharModal();
+});
 
+pesquisa.addEventListener("input", renderizarAparelhos);
+
+campo("menuMobile").addEventListener("click", () => {
+    campo("sidebar").classList.toggle("aberta");
+});
+
+campo("botaoSair").addEventListener("click", () => {
     window.location.href = "/";
+});
 
-}
-
-
-// ================================
-// INICIAR
-// ================================
-
-carregarDados();
+carregarClientes();
+carregarAparelhos();
